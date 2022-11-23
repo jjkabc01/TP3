@@ -10,6 +10,7 @@
 //Ajout de la page header 
 include('header.php');
 
+
 // Initialisation des variables
 $UTILISATEUR_MEM = '';
 $MOT_DE_PASSE_MEM= '';
@@ -29,7 +30,7 @@ if (isset($_POST['connecter'])) {
     
     oci_execute($stid);
     
-    $MEMBRE= oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS);
+    $MEMBRE= oci_fetch_array($stid);
     
     // on sauvegarde les information dans la variable de session
     if ($MEMBRE  != false) {
@@ -45,7 +46,14 @@ if (isset($_POST['connecter'])) {
         echo $erreur;
     }
 }
-    
+
+//Si l'usager est deconnecté
+if (isset($_GET['action']) && $_GET['action'] === 'deconnecter' )  {
+    session_destroy();
+    header('Location: index.php');
+    echo '<div> Vous êtes bien deconnecté</div>';
+}
+   
 
 ?>
 
@@ -58,8 +66,8 @@ if (isset($_POST['connecter'])) {
 
 <form action="index.php" method="post" >
     <div>
-    	Nom d'utilisateur Membre: <input type="text" name="UTILISATEUR_MEM"><br>
-    	Mot de passe Membre <input type="text" name="MOT_DE_PASSE_MEM"><br>
+    	Nom d'utilisateur Membre : <input type="text" name="UTILISATEUR_MEM"><br>
+    	Mot de passe Membre : <input type="text" name="MOT_DE_PASSE_MEM"><br>
     </div>
 	<div >
 		<input class="boutton" type="submit" name="connecter" value="Se connecter">
