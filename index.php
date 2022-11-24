@@ -43,7 +43,7 @@ if (isset($_POST['connecter'])) {
     } else {
            // On affiche le message d'erreur userid ou mot de passe incorrect
         $erreur = "Le nom d'utilisateur ou le mot de passe est incorrect, merci de vérifier les informations de connexion";
-        echo $erreur;
+        echo '<div class="erreur">'. $erreur . '</div>';
     }
 }
 
@@ -57,10 +57,14 @@ if (isset($_GET['action']) && $_GET['action'] === 'deconnecter' )  {
 
 ?>
 
-<h1> Bienvenue sur le site du CIPRÉ</h1>
-
-<h2>Connexion</h2>
-
+<section class="presentation">
+<h1>Bienvenue sur le portail de CIPRE</h1>
+<p>CPRE est un centre de recherche internationnal qui compe de milliers<br>
+de milliers de chercheurs a travers le monde.l'objectif de tous ses chercheurs est<br>
+      centré sur des recherche pour repondre aux bésoin du monde.
+</p>
+<p>Le site du cipre est une plateforme de recherche ou tout les cheurcheurs se reunissent</p>
+</section>
 
 <p>Merci de entrer votre nom d'utilisateur et votre mot de passe et cliquez sur le boutton Se connecter.</p>
 
@@ -75,37 +79,15 @@ if (isset($_GET['action']) && $_GET['action'] === 'deconnecter' )  {
 </form>
 
 </br>
-<?php include('footer.php'); ?>
 
 
-
+<footer>
 <?php
-
-$stid = oci_parse($conn, 'select * from TP2_RAPPORT');
-
-//on exécute le select
-oci_execute($stid);
-
-//on affiche le début d'un tableau html
-echo "<table>\n";
-
-//une boucle pour parcourir le "curseur"
-while (($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) != false) {
-    
-    //on affiche le début d'une ligne d'un tableau html
-    echo "<tr>\n";
-    
-    //une boucle pour parcourir les attributs de chaque ligne
-    foreach ($row as $item) {
-        //on affiche une cellule du tableau html i.e.: <td> ... </td>
-        echo "  <td>".($item !== null ? htmlspecialchars($item, ENT_QUOTES) : "&nbsp;")."</td>\n";
-    }
-    //on affiche la fin de la ligne d'un tableau html
-    echo "</tr>\n";
-}
-//on affiche la fin du tableau html
-echo "</table>\n";
+       
+         include 'footer.php';
+             
+      ?>
+             
+</footer>
 
 
-
-?>

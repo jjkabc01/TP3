@@ -1,0 +1,56 @@
+
+ 
+header{
+
+    max-width: 80px;
+    margin-right : auto;
+    margin-left: auto;
+}
+ 
+nav{
+    dispaly: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    width: 100px;
+    padding: 30px 0 10px;
+
+}
+ 
+nav .logo{
+
+    width: 170PX;
+}
+ 
+nav ul{
+    flex:1;
+    display: flex;
+    justify-content: flex end;
+    padding-right: 40px;
+
+}
+nav ul li{
+
+    list-style: none;
+    margin-left:600px;
+}
+ 
+.connexion{
+
+    margin-left:1400px;
+}
+ 
+.erreur 
+{
+    text-align: center;
+    color : red;
+ }
+ 
+.copy{
+
+    dispaly:flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+
+}
