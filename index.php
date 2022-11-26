@@ -13,7 +13,7 @@ include('header.php');
 
 // Initialisation des variables
 $UTILISATEUR_MEM = '';
-$MOT_DE_PASSE_MEM= '';
+$MOT_DE_PASSE_MEM = '';
 
 
 // Si l'usager clique sur le boutton connecter
