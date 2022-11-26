@@ -78,7 +78,6 @@ if (isset($_GET['action']) && $_GET['action'] === 'deconnecter' )  {
 de milliers de chercheurs a travers le monde.l'objectif de tous ses chercheurs est<br>
       centré sur des recherche pour repondre aux bésoin du monde.
 </p>
-<p>Le site du cipre est une plateforme de recherche ou tout les cheurcheurs se reunissent</p>
 </section>
 
 <p>Merci de entrer votre nom d'utilisateur et votre mot de passe et cliquez sur le boutton Se connecter.</p>

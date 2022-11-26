@@ -44,6 +44,7 @@ nav ul li{
     text-align: center;
     color : red;
  }
+
  
 .copy{
 
@@ -52,5 +53,4 @@ nav ul li{
     justify-content: center;
     flex-direction: column;
     text-align: center;
-
 }
