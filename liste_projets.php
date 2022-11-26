@@ -9,10 +9,10 @@ if($_SESSION['TYPE_MEMBRE'] === 'administrateur' || $_SESSION['TYPE_MEMBRE'] ===
 {
     $type = "je suis admin";
     
-    $stid = oci_parse($conn, "select NO_PROJET
+    $stid = oci_parse($conn, "select NO_PROJET from (select NO_PROJET, DATE_DEBUT_PRO
                               from TP2_PROJET 
-                                union select NO_PROJET
-                                    from TP2_PROJET_ARCHIVE 
+                                union select NO_PROJET, DATE_DEBUT_PRO
+                                    from TP2_PROJET_ARCHIVE )
                                         order by DATE_DEBUT_PRO desc");    
 }
 else 
@@ -93,47 +93,7 @@ if (isset($_POST['projet'])) {
     echo "</table>\n";
     
     
-    
-    
-   
-    
-    
 }
-
-
-
-
-
-//on affiche le début d'un tableau html
-
-echo "<table>\n";
-
-//une boucle pour parcourir le "curseur"
-while (($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) != false) {
-    
-    //on affiche le début d'une ligne d'un tableau html
-    echo "<tr>\n";
-    echo "<th>NO MEMBRE </th>\n";
-    echo "<th>NO PROJET</th>\n";
-    echo "</tr>\n";
-    
-    
-    echo "<tr>\n";
-    
-    //une boucle pour parcourir les attributs de chaque ligne
-    foreach ($row as $item) {
-        //on affiche une cellule du tableau html i.e.: <td> ... </td>
-        echo "  <td>".($item !== null ? htmlspecialchars($item, ENT_QUOTES) : "&nbsp;")."</td>\n";
-    }
-    //on affiche la fin de la ligne d'un tableau html
-    echo "</tr>\n";
-    
-}
-//on affiche la fin du tableau html
-echo "</table>\n";
-
-
-
 
 
 

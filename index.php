@@ -39,11 +39,11 @@ if (isset($_POST['connecter'])) {
         $_SESSION['NOM_MEM'] = $MEMBRE['NOM_MEM'];
         $_SESSION['PRENOM_MEM'] = $MEMBRE['PRENOM_MEM'];
         
-        if($MEMBRE['EST_ADMINISTRATEUR_MEM'] === 1 )
+        if($MEMBRE['EST_ADMINISTRATEUR_MEM'] == 1 )
         {
             $_SESSION['TYPE_MEMBRE'] = 'administrateur';
         }
-        elseif ($MEMBRE['EST_SUPERVISEUR_MEM'] === 1)
+        elseif ($MEMBRE['EST_SUPERVISEUR_MEM'] == 1)
         {
             $_SESSION['TYPE_MEMBRE'] = 'superviseur';
         }
