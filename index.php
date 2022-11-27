@@ -6,6 +6,13 @@
  * Check Sangaré
  * Aimé
  */
+//cette page n'est pas protégée
+$proteger = false;
+
+if (isset($_GET['connexion']) && $_GET['connexion'] === 'requis' )  {
+    $erreur = "Vous devez être connecté pour accéder à cette page";
+    echo '<div class="erreur">'. $erreur . '</div>';
+}
 
 //Ajout de la page header 
 include('header.php');

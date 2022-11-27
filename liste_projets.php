@@ -1,4 +1,7 @@
 <?php
+
+$proteger = true;
+
 include('header.php');
 
 //si le boutton Archiver est cliqué et qu'une date d'archivage est entrée ex:15-10-01
@@ -31,15 +34,24 @@ if(isset($_POST['rechercher'])){
     header('Location: projet_rechercher.php');
 }
 
+//À supprimmer pour tester la page un_membre.php 
+if(isset($_POST['membre'])){
+    //on renvoie la page un_membre.php avec le membre 
+    header('Location: un_membre.php?NO_MEMBRE=20');
+}
+//À supprimer   
 
-echo '<div><p> Liste projet Ok </p></div>';
+
+echo '<div><p> Liste projet</p></div>';
 
 $stid ="";
 $type ="";
 
 if($_SESSION['TYPE_MEMBRE'] === 'administrateur' || $_SESSION['TYPE_MEMBRE'] === 'superviseur' )
 {
+    // a supprimer juste pour tester nos conditions de membres ou admin
     $type = "je suis admin ou superviseur";
+    // a supprimer
     
     $stid = oci_parse($conn, "select NO_PROJET from (select NO_PROJET, DATE_DEBUT_PRO
                               from TP2_PROJET 
@@ -48,11 +60,12 @@ if($_SESSION['TYPE_MEMBRE'] === 'administrateur' || $_SESSION['TYPE_MEMBRE'] ===
                                         order by DATE_DEBUT_PRO desc");    
 }
 else 
-{
-    $NO_MEMBRE = $_SESSION['NO_MEMBRE'];
-    
+{ 
+    // a supprimer juste pour tester nos conditions de membres ou admin
     $type = "je suis simple membre";
-    
+    // a supprimer
+      
+    $NO_MEMBRE = $_SESSION['NO_MEMBRE'];
     $stid = oci_parse($conn, "select E.NO_PROJET
                               from TP2_EQUIPE_PROJET E, TP2_PROJET P
                               where NO_MEMBRE = '$NO_MEMBRE' 
@@ -69,6 +82,7 @@ oci_execute($stid);
 echo $type;
 // a supprimer
 
+//création d'une form pour avoir les valeur post des bouttons
 echo "<form action='liste_projets.php' method='post' >\n";
 //on affiche le début de notre liste de projet
 echo "<select size='20' name='NO_PROJET'> \n";
@@ -91,6 +105,11 @@ echo "<input class='boutton' type='submit' name='projet' value='Voir le projet'>
 echo "<input class='boutton' type='submit' name='update' value='Mettre à jour le projet'><br> \n";
 echo "<input class='boutton' type='submit' name='creer' value='Creer un projet'><br> \n";
 echo "<input class='boutton' type='submit' name='rechercher' value='Rechercher'><br> \n";
+
+//À supprimmer pour tester la page un_membre.php 
+echo "<input class='boutton' type='submit' name='membre' value='Afficher membre NO 20'><br> \n";
+//À supprimmer 
+
 echo "</div> \n"; 
 echo "<br><br> \n"; 
 
