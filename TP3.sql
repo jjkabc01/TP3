@@ -2,7 +2,7 @@
 
 SET SERVEROUTPUT ON
 
-/***** CrÈation des tables du cas CIPR… ******/
+/***** Cr√©ation des tables du cas CIPR√â ******/
 
 drop table TP2_MEMBRE cascade constraints;
 drop table TP2_PROJET cascade constraints;
@@ -29,7 +29,7 @@ create table TP2_MEMBRE (
   PAYS_MEM varchar2(30) not null, 
   TEL_MEM char(13) not null, 
   FAX_MEM char(13) null,  
-  LANGUE_CORRESPONDANCE_MEM varchar2(30) default 'FranÁais' not null,
+  LANGUE_CORRESPONDANCE_MEM varchar2(30) default 'Fran√ßais' not null,
   NOM_FICHIER_PHOTO_MEM varchar2(200) null, 
   ADRESSE_WEB_MEM varchar2(30) null,
   INSTITUTION_MEM varchar2(30) not null,
@@ -58,12 +58,12 @@ create table TP2_PROJET (
   NO_PROJET number(10) not null, 
   NOM_PRO varchar2(30) not null,
   MNT_ALLOUE_PRO number(9,2) default 0.0 not null, 
-  STATUT_PRO varchar2(30) default 'DÈbutÈ' not null,
+  STATUT_PRO varchar2(30) default 'D√©but√©' not null,
   DATE_DEBUT_PRO date not null,
   DATE_FIN_PRO date not null,
   constraint PK_TP2_PROJET primary key (NO_PROJET),
   constraint AK_TP2_PROJET_NOM_PRO unique (NOM_PRO),
-  constraint CT_STATUT_PRO check (STATUT_PRO in ('DÈbutÈ', 'En vÈrification', 'En correction', 'TerminÈ')),
+  constraint CT_STATUT_PRO check (STATUT_PRO in ('D√©but√©', 'En v√©rification', 'En correction', 'Termin√©')),
   constraint CT_MNT_ALLOUE_PRO_SUPERIEUR_EGAL_0 check(MNT_ALLOUE_PRO >= 0),
   constraint CT_DATE_FIN_PRO_SUPERIEUR_DATE_DEBUT_PRO check (DATE_FIN_PRO > DATE_DEBUT_PRO)
   
@@ -86,12 +86,12 @@ create table TP2_NOTIFICATION (
   NO_NOTIFICATION number(10) not null,
   NOM_NOT varchar2(30) not null,
   DATE_ECHEANCE_NOT date not null,
-  ETAT_NOT varchar2(30) default 'Non dÈbutÈe' not null,
+  ETAT_NOT varchar2(30) default 'Non d√©but√©e' not null,
   NOTE_NOT varchar2(1000) null,
   NO_MEM_ADMIN_CREATION number(10) not null,
   NO_MEM_ATTRIBUTION number(10) not null,
   constraint PK_TP2_NOTIFICATION primary key (NO_NOTIFICATION),
-  constraint CT_ETAT_NOT check (ETAT_NOT in ('Non dÈbutÈe', 'En cours', '¿ approuver ', 'TerminÈe')),
+  constraint CT_ETAT_NOT check (ETAT_NOT in ('Non d√©but√©e', 'En cours', '√Ä approuver ', 'Termin√©e')),
   constraint FK_TP2_NOTIFICATION_NO_MEM_ADMIN_CREATION foreign key (NO_MEM_ADMIN_CREATION) 
 				references TP2_MEMBRE (NO_MEMBRE),
   constraint FK_TP2_NOTIFICATION_NO_MEM_ATTRIBUTION foreign key (NO_MEM_ATTRIBUTION) 
@@ -105,7 +105,7 @@ create table TP2_RAPPORT_ETAT (
   NOM_ETAT_RAP varchar2(30) not null,
   constraint PK_TP2_RAPPORT_ETAT primary key (CODE_ETAT_RAP),
   constraint CT_CODE_ETAT_RAP check ( CODE_ETAT_RAP in ( 'DEBU', 'VERI', 'CORR', 'APPR')),
-  constraint CT_NOM_ETAT_RAP check ( NOM_ETAT_RAP in ('DÈbutÈ', 'En vÈrification', 'En correction', 'ApprouvÈ'))
+  constraint CT_NOM_ETAT_RAP check ( NOM_ETAT_RAP in ('D√©but√©', 'En v√©rification', 'En correction', 'Approuv√©'))
    
 );
 
@@ -143,21 +143,21 @@ create table TP2_INSCRIPTION_CONFERENCE (
   SIGLE_CONFERENCE varchar2(10) not null,
   NO_MEMBRE number(10) not null, 
   DATE_DEMANDE_INS date not null,
-  STATUT_APPROBATION_INS number(1) default 0 not null,   /* default 'Non dÈbutÈe' not null,     ( il faut trouver les valeurs possible de STATUT_APPROBATION_INS) */
+  STATUT_APPROBATION_INS number(1) default 0 not null,   /* default 'Non d√©but√©e' not null,     ( il faut trouver les valeurs possible de STATUT_APPROBATION_INS) */
   constraint PK_TP2_INSCRIPTION_CONFERENCE primary key (SIGLE_CONFERENCE, NO_MEMBRE),
   constraint FK_TP2_INSCRIPTION_CONFERENCE_SIGLE_CONFERENCE foreign key (SIGLE_CONFERENCE)
 	references TP2_CONFERENCE (SIGLE_CONFERENCE),
   constraint FK_TP2_INSCRIPTION_CONFERENCE_NO_MEMBRE foreign key (NO_MEMBRE)
 	references TP2_MEMBRE (NO_MEMBRE)
   /* ( il faut trouver les valeurs possible de STATUT_APPROBATION_INS)
-	constraint CT_INSCRIPTION_CONFERENCE check (STATUT_APPROBATION_INS in ('Non dÈbutÈe', 'En cours', '¿ approuver', 'TerminÈe'))
+	constraint CT_INSCRIPTION_CONFERENCE check (STATUT_APPROBATION_INS in ('Non d√©but√©e', 'En cours', '√Ä approuver', 'Termin√©e'))
   */
 	
 );
 
 
 
-/***** Creation des sÈquences ****/
+/***** Creation des s√©quences ****/
 
 create sequence NO_MEMBRE_SEQ
     start with 5
@@ -194,7 +194,7 @@ create sequence NO_RAPPORT_SEQ
             
             
 
-  /*********** Question 2d) Donnez la requÍte SQL qui crÈe une fonction nommÈe FCT_GENERER_MOT_DE_PASSE pour la gÈnÈration des mot de passe des membres ***********/
+  /*********** Question 2d) Donnez la requ√™te SQL qui cr√©e une fonction nomm√©e FCT_GENERER_MOT_DE_PASSE pour la g√©n√©ration des mot de passe des membres ***********/
   
  create or replace function FCT_GENERER_MOT_DE_PASSE(V_NB_CARACTERE in number) return varchar2
   is
@@ -240,9 +240,9 @@ create sequence NO_RAPPORT_SEQ
   
 
 
-/*****1)m) requÍte SQL dÈfinissant la vue affichant la hiÈrarchie des membres **********/
+/*****1)m) requ√™te SQL d√©finissant la vue affichant la hi√©rarchie des membres **********/
 
-/*****1)m)i) requÍte SQL qui crÈe cette vue. ******/
+/*****1)m)i) requ√™te SQL qui cr√©e cette vue. ******/
 
 create or replace view VUE_HIERACHIE_MEMBRE as 
     with TOUS_MANAGER( NO_MEMBRE, NO_MEMBRE_PATRON, NOM_MEM, COURRIEL_MEM, TEL_MEM, UTILISATEUR_MEM, NIVEAU ) as 
@@ -263,7 +263,7 @@ create or replace view VUE_HIERACHIE_MEMBRE as
       
 
     
-    /*************************** 2)a) la requÍte SQL qui crÈe un dÈclencheur en ajout et modification sur la table EQUIPE_PROJET et qui síassure que pour un projet, il y a au plus un membre qui est directeur.  ********************************************/
+    /*************************** 2)a) la requ√™te SQL qui cr√©e un d√©clencheur en ajout et modification sur la table EQUIPE_PROJET et qui s¬íassure que pour un projet, il y a au plus un membre qui est directeur.  ********************************************/
   
        create or replace trigger TRG_BIU_DIRECTEUR_PROJET
             before insert or update of EST_DIRECTEUR_PRO on TP2_EQUIPE_PROJET
@@ -273,7 +273,7 @@ create or replace view VUE_HIERACHIE_MEMBRE as
             V_NB_DIRECTEUR_PROJET number(1);
       begin            
             if :OLD.EST_DIRECTEUR_PRO  = 1 then
-                raise_application_error(-20052, 'Ce projet ‡ dÈj‡ un directeur');
+                raise_application_error(-20052, 'Ce projet √† d√©j√† un directeur');
             end if;
                               
             if :OLD.EST_DIRECTEUR_PRO is null  then 
@@ -288,14 +288,14 @@ create or replace view VUE_HIERACHIE_MEMBRE as
             end if;
             
             if V_NB_DIRECTEUR_PROJET > 0 then
-                raise_application_error(-20052, 'Ce projet ‡ dÈj‡ un directeur');
+                raise_application_error(-20052, 'Ce projet √† d√©j√† un directeur');
                 end if;
     end TRG_BIU_DIRECTEUR_PROJET;
     /
 
 
    	
-   	/******************* Question 2) b) Fonction FCT_MOYENNE_MNT_ALLOUE qui reÁoit en paramËtre un numÈro de membre et retourne le montant moyen allouÈ pour tous ses projets **************/
+   	/******************* Question 2) b) Fonction FCT_MOYENNE_MNT_ALLOUE qui re√ßoit en param√®tre un num√©ro de membre et retourne le montant moyen allou√© pour tous ses projets **************/
    	
     create or replace function FCT_MOYENNE_MNT_ALLOUE(V_NO_MEMBRE in number) return number
     is 
@@ -311,7 +311,7 @@ create or replace view VUE_HIERACHIE_MEMBRE as
     /
     
     
-    /******************** Question 2) c) procÈdure stockÈe SP_ARCHIVER_PROJET qui reÁoit en paramËtre une date et dÈplace tous les projets dans une nouvelle table PROJET_ARCHIVE et leurs rapports dans la table RAPPORT_ARCHIVE. **********/
+    /******************** Question 2) c) proc√©dure stock√©e SP_ARCHIVER_PROJET qui re√ßoit en param√®tre une date et d√©place tous les projets dans une nouvelle table PROJET_ARCHIVE et leurs rapports dans la table RAPPORT_ARCHIVE. **********/
     
     /******************** Creation des Tables PROJET_ARCHIVE et RAPPORT_ARCHIVE ******************/
     
@@ -342,7 +342,7 @@ create or replace view VUE_HIERACHIE_MEMBRE as
                     references TP2_RAPPORT_ETAT (CODE_ETAT_RAP)	
 );
 
-    /********* CrÈation de la ProcÈdure stockÈe TP3_SP_ARCHIVER_PROJET *************/
+    /********* Cr√©ation de la Proc√©dure stock√©e TP3_SP_ARCHIVER_PROJET *************/
     create or replace procedure TP3_SP_ARCHIVER_PROJET (V_DATE_FIN_PROJET date, V_UTILISATEUR_ADMINISTRATEUR  varchar2) is 
         V_DATE_2_ANS date;
         V_EST_ADMINISTRATEUR number;
@@ -361,7 +361,7 @@ create or replace view VUE_HIERACHIE_MEMBRE as
             cursor ANCIEN_PROJET_CURSEUR is
                 select NO_PROJET, NOM_PRO, MNT_ALLOUE_PRO, STATUT_PRO, DATE_DEBUT_PRO, DATE_FIN_PRO 
                     from TP2_PROJET
-                    where DATE_FIN_PRO < V_DATE_FIN_PROJET  and STATUT_PRO = 'TerminÈ'
+                    where DATE_FIN_PRO < V_DATE_FIN_PROJET  and STATUT_PRO = 'Termin√©'
                     order by NO_PROJET asc;
                     
         begin
@@ -386,7 +386,7 @@ create or replace view VUE_HIERACHIE_MEMBRE as
                 
                 
                 delete from TP2_RAPPORT where NO_PROJET = ENR_PROJET.NO_PROJET;
-                
+                delete from TP2_EQUIPE_PROJET where NO_PROJET = ENR_PROJET.NO_PROJET;
                 delete from TP2_PROJET where NO_PROJET = ENR_PROJET.NO_PROJET;
                 
                 
@@ -396,7 +396,7 @@ create or replace view VUE_HIERACHIE_MEMBRE as
          When E_USAGER_INVALIDE then
                 dbms_output.put_line('L''usager n''est pas administrateur');
          When E_DATE_INVALIDE then
-                dbms_output.put_line('La date fournie dois Ítre veille que 2 ans');
+                dbms_output.put_line('La date fournie dois √™tre veille que 2 ans');
         end;   
    
 end TP3_SP_ARCHIVER_PROJET;
@@ -404,22 +404,22 @@ end TP3_SP_ARCHIVER_PROJET;
 
   
   
-  /**************** 2)e) 3 requÍtes PL/SQL de votre choix (1 stored procedure, 1 function et 1 trigger) *****************/
-   /**************** 2)e)i) requÍtes PL/SQL stored procedure pour la rÈinitialisation d' un mot de passe temporaire ‡ un utilisateur *****************/
-  create or replace procedure SP_R…INITIALISER_MOT_DE_PASSE (V_NO_MEMBRE number, V_NB_CARACTERE number) is
+  /**************** 2)e) 3 requ√™tes PL/SQL de votre choix (1 stored procedure, 1 function et 1 trigger) *****************/
+   /**************** 2)e)i) requ√™tes PL/SQL stored procedure pour la r√©initialisation d' un mot de passe temporaire √† un utilisateur *****************/
+  create or replace procedure SP_R√âINITIALISER_MOT_DE_PASSE (V_NO_MEMBRE number, V_NB_CARACTERE number) is
   
     begin        
         update TP2_MEMBRE
             set MOT_DE_PASSE_MEM = FCT_GENERER_MOT_DE_PASSE(V_NB_CARACTERE)
             where NO_MEMBRE = V_NO_MEMBRE;
         
-  end SP_R…INITIALISER_MOT_DE_PASSE;
+  end SP_R√âINITIALISER_MOT_DE_PASSE;
   /
    
 
    
    
-   /**************** 2) e) ii) requÍtes PL/SQL une fonction pour afficher la date d'une conference programmÈe *****************/
+   /**************** 2) e) ii) requ√™tes PL/SQL une fonction pour afficher la date d'une conference programm√©e *****************/
     
    insert into TP2_CONFERENCE ( SIGLE_CONFERENCE, TITRE_CON, DATE_DEBUT_CON, DATE_FIN_CON, LIEU_CON, ADRESSE_CON)
     values ('COOP', 'Sommet des coop', to_date('22-12-02','RR-MM-DD'), to_date('22-12-10','RR-MM-DD'), 'QUEBEC', '2325 RUE DELGADO QUEBEC CANADA');
@@ -440,7 +440,7 @@ end TP3_SP_ARCHIVER_PROJET;
 
    
    
-   /********************************2) e) iii) requÍtes PL/SQL un trigger qui empÍche l'inscription ‡ une confÈrence qui n'existe pas  *****************************************/
+   /********************************2) e) iii) requ√™tes PL/SQL un trigger qui emp√™che l'inscription √† une conf√©rence qui n'existe pas  *****************************************/
    
     create or replace trigger TRG_BI_INSCRIPTION_CONFERENCE
             before insert on TP2_INSCRIPTION_CONFERENCE
@@ -453,7 +453,7 @@ end TP3_SP_ARCHIVER_PROJET;
                 where SIGLE_CONFERENCE = :NEW.SIGLE_CONFERENCE;    
                            
             if V_EXISTE_CONFERENCE < 1 then
-                raise_application_error(-20053,  'La confÈrence n'' existe pas ');
+                raise_application_error(-20053,  'La conf√©rence n'' existe pas ');
             end if;
     end TRG_BIU_DIRECTEUR_PROJET;
     /
@@ -461,7 +461,7 @@ end TP3_SP_ARCHIVER_PROJET;
    
    
    /************************ 3) a)Indexation * ******************************************/
-   /************************3) a) i)requÍtes SQL dont vous auriez besoin pour crÈer les Index nÈcessaires pour amÈliorer les performances de ces recherches des membre  ******************************************/
+   /************************3) a) i)requ√™tes SQL dont vous auriez besoin pour cr√©er les Index n√©cessaires pour am√©liorer les performances de ces recherches des membre  ******************************************/
      /* 
       drop index IDX_TP2_MEMBRE_INSTITUTION_MEM;
       drop index IDX_TP2_MEMBRE_INSTITUTION_NOM_MEM;
@@ -489,8 +489,8 @@ end TP3_SP_ARCHIVER_PROJET;
             
             
         
-        /****** Question 3)a)iii)2)Les requËtes d'index pour chacune des trois situations *******/ 
-        /******SITUATION 1 : Recherche d'une confÈrence *******/
+        /****** Question 3)a)iii)2)Les requ√®tes d'index pour chacune des trois situations *******/ 
+        /******SITUATION 1 : Recherche d'une conf√©rence *******/
         
         /*
         drop index IDX_TP2_CONFERENCE_TITRE_LIEU_CON;
@@ -529,29 +529,29 @@ end TP3_SP_ARCHIVER_PROJET;
 
 
 
-/***** DonnÈes d'insertion *******/
+/***** Donn√©es d'insertion *******/
 
 /****************** PROJETS ******************/
 insert into TP2_PROJET ( NO_PROJET, NOM_PRO, MNT_ALLOUE_PRO, STATUT_PRO, DATE_DEBUT_PRO, DATE_FIN_PRO ) 
-    values (NO_PROJET_SEQ.nextval, 'projet synaps', 350000, 'DÈbutÈ', to_date('15-01-10','RR-MM-DD'), to_date('16-08-01','RR-MM-DD'));
+    values (NO_PROJET_SEQ.nextval, 'projet synaps', 350000, 'D√©but√©', to_date('15-01-10','RR-MM-DD'), to_date('16-08-01','RR-MM-DD'));
     
 insert into TP2_PROJET ( NO_PROJET, NOM_PRO, MNT_ALLOUE_PRO, STATUT_PRO, DATE_DEBUT_PRO, DATE_FIN_PRO ) 
     values (NO_PROJET_SEQ.nextval, 'projet epic', 620000, 'En correction', to_date('16-06-15','RR-MM-DD'), to_date('16-08-01','RR-MM-DD'));
     
 insert into TP2_PROJET ( NO_PROJET, NOM_PRO, MNT_ALLOUE_PRO, STATUT_PRO, DATE_DEBUT_PRO, DATE_FIN_PRO ) 
-    values (NO_PROJET_SEQ.nextval, 'projet cervo', 470000, 'DÈbutÈ', to_date('15-05-12','RR-MM-DD'), to_date('16-06-01','RR-MM-DD'));
+    values (NO_PROJET_SEQ.nextval, 'projet cervo', 470000, 'D√©but√©', to_date('15-05-12','RR-MM-DD'), to_date('16-06-01','RR-MM-DD'));
     
 insert into TP2_PROJET ( NO_PROJET, NOM_PRO, MNT_ALLOUE_PRO, STATUT_PRO, DATE_DEBUT_PRO, DATE_FIN_PRO ) 
     values (NO_PROJET_SEQ.nextval, 'projet intelijet', 320000, 'En correction', to_date('14-04-13','RR-MM-DD'), to_date('15-09-05','RR-MM-DD'));
     
 insert into TP2_PROJET ( NO_PROJET, NOM_PRO, MNT_ALLOUE_PRO, STATUT_PRO, DATE_DEBUT_PRO, DATE_FIN_PRO ) 
-    values (NO_PROJET_SEQ.nextval, 'projet mirage ', 470000, 'En vÈrification', to_date('13-03-12','RR-MM-DD'), to_date('14-05-06','RR-MM-DD'));
+    values (NO_PROJET_SEQ.nextval, 'projet mirage ', 470000, 'En v√©rification', to_date('13-03-12','RR-MM-DD'), to_date('14-05-06','RR-MM-DD'));
     
 insert into TP2_PROJET ( NO_PROJET, NOM_PRO, MNT_ALLOUE_PRO, STATUT_PRO, DATE_DEBUT_PRO, DATE_FIN_PRO ) 
-    values (NO_PROJET_SEQ.nextval, 'projet nuvera', 410000, 'DÈbutÈ', to_date('15-06-12','RR-MM-DD'), to_date('16-02-04','RR-MM-DD'));
+    values (NO_PROJET_SEQ.nextval, 'projet nuvera', 410000, 'D√©but√©', to_date('15-06-12','RR-MM-DD'), to_date('16-02-04','RR-MM-DD'));
     
 insert into TP2_PROJET ( NO_PROJET, NOM_PRO, MNT_ALLOUE_PRO, STATUT_PRO, DATE_DEBUT_PRO, DATE_FIN_PRO ) 
-    values (NO_PROJET_SEQ.nextval, 'projet fiery', 230000, 'En vÈrification', to_date('14-03-12','RR-MM-DD'), to_date('15-08-04','RR-MM-DD'));
+    values (NO_PROJET_SEQ.nextval, 'projet fiery', 230000, 'En v√©rification', to_date('14-03-12','RR-MM-DD'), to_date('15-08-04','RR-MM-DD'));
     
     
 
@@ -559,32 +559,32 @@ insert into TP2_PROJET ( NO_PROJET, NOM_PRO, MNT_ALLOUE_PRO, STATUT_PRO, DATE_DE
 /** Un administrateur ****/
 insert into TP2_MEMBRE( NO_MEMBRE,  UTILISATEUR_MEM, MOT_DE_PASSE_MEM, NOM_MEM, PRENOM_MEM, ADRESSE_MEM, CODE_POSTAL_MEM, PAYS_MEM, TEL_MEM, FAX_MEM, LANGUE_CORRESPONDANCE_MEM,
   NOM_FICHIER_PHOTO_MEM, ADRESSE_WEB_MEM, INSTITUTION_MEM, COURRIEL_MEM, NO_MEMBRE_PATRON, EST_ADMINISTRATEUR_MEM, EST_SUPERVISEUR_MEM, EST_APPOUVEE_INSCRIPTION_MEM) 
-    values ( NO_MEMBRE_SEQ.nextval, 'jean.tremblay', FCT_GENERER_MOT_DE_PASSE(14), 'tremblay', 'jean', '2325 Rue de la vie Etudiante', 'G1V 0B3', 'CANADA', '(514)699-3569','(514)699-4569','FranÁais','/JTremblay.png','Jtremblay.com','NASA','jean.tremblay@nasa.com', 5 ,1,0,1);
+    values ( NO_MEMBRE_SEQ.nextval, 'jean.tremblay', FCT_GENERER_MOT_DE_PASSE(14), 'tremblay', 'jean', '2325 Rue de la vie Etudiante', 'G1V 0B3', 'CANADA', '(514)699-3569','(514)699-4569','Fran√ßais','/JTremblay.png','Jtremblay.com','NASA','jean.tremblay@nasa.com', 5 ,1,0,1);
 
 /** Un superviseur **/
 insert into TP2_MEMBRE( NO_MEMBRE,  UTILISATEUR_MEM, MOT_DE_PASSE_MEM, NOM_MEM, PRENOM_MEM, ADRESSE_MEM, CODE_POSTAL_MEM, PAYS_MEM, TEL_MEM, FAX_MEM, LANGUE_CORRESPONDANCE_MEM,
   NOM_FICHIER_PHOTO_MEM, ADRESSE_WEB_MEM, INSTITUTION_MEM, COURRIEL_MEM, NO_MEMBRE_PATRON, EST_ADMINISTRATEUR_MEM, EST_SUPERVISEUR_MEM, EST_APPOUVEE_INSCRIPTION_MEM) 
-    values ( NO_MEMBRE_SEQ.nextval, 'eric.gagnon', FCT_GENERER_MOT_DE_PASSE(14), 'gagnon', 'eric', '2255 Rue des Pins Ouest', 'G1J 1T3', 'CANADA', '(418)646-2254','(418)646-2255','FranÁais','/EGagnon.png','Egagnon.com','ETS','eric.gagnon@ets.com', 5 ,0,1,1);
+    values ( NO_MEMBRE_SEQ.nextval, 'eric.gagnon', FCT_GENERER_MOT_DE_PASSE(14), 'gagnon', 'eric', '2255 Rue des Pins Ouest', 'G1J 1T3', 'CANADA', '(418)646-2254','(418)646-2255','Fran√ßais','/EGagnon.png','Egagnon.com','ETS','eric.gagnon@ets.com', 5 ,0,1,1);
 
 
 /** un membre directeur **/
 insert into TP2_MEMBRE( NO_MEMBRE,  UTILISATEUR_MEM, MOT_DE_PASSE_MEM, NOM_MEM, PRENOM_MEM, ADRESSE_MEM, CODE_POSTAL_MEM, PAYS_MEM, TEL_MEM, FAX_MEM, LANGUE_CORRESPONDANCE_MEM,
   NOM_FICHIER_PHOTO_MEM, ADRESSE_WEB_MEM, INSTITUTION_MEM, COURRIEL_MEM, NO_MEMBRE_PATRON, EST_ADMINISTRATEUR_MEM, EST_SUPERVISEUR_MEM, EST_APPOUVEE_INSCRIPTION_MEM) 
-    values ( NO_MEMBRE_SEQ.nextval, 'julie.cagÈ', FCT_GENERER_MOT_DE_PASSE(14), 'cagÈ', 'julie', '1015 Avenue des Promenades', 'G1X 2P4', 'CANADA', '(418)353-1510','(418)353-1511','FranÁais','/JCage.png','Jcage.com','PRISME','julie.cage@prisme.com', 15 ,0,0,1);
+    values ( NO_MEMBRE_SEQ.nextval, 'julie.cag√©', FCT_GENERER_MOT_DE_PASSE(14), 'cag√©', 'julie', '1015 Avenue des Promenades', 'G1X 2P4', 'CANADA', '(418)353-1510','(418)353-1511','Fran√ßais','/JCage.png','Jcage.com','PRISME','julie.cage@prisme.com', 15 ,0,0,1);
 
 
 /** membres **/
 insert into TP2_MEMBRE( NO_MEMBRE,  UTILISATEUR_MEM, MOT_DE_PASSE_MEM, NOM_MEM, PRENOM_MEM, ADRESSE_MEM, CODE_POSTAL_MEM, PAYS_MEM, TEL_MEM, FAX_MEM, LANGUE_CORRESPONDANCE_MEM,
   NOM_FICHIER_PHOTO_MEM, ADRESSE_WEB_MEM, INSTITUTION_MEM, COURRIEL_MEM, NO_MEMBRE_PATRON, EST_ADMINISTRATEUR_MEM, EST_SUPERVISEUR_MEM, EST_APPOUVEE_INSCRIPTION_MEM) 
-    values ( NO_MEMBRE_SEQ.nextval, 'louis.lambert', FCT_GENERER_MOT_DE_PASSE(14), 'lambert', 'louis', '3686 Avenue de la liberation', 'G1V 3P4', 'CANADA', '(418)263-4410','(418)263-4412','FranÁais','/LLambert.png','Llambert.com','ICON','louis.lambert@icon.com', 20 ,0,0,1);
+    values ( NO_MEMBRE_SEQ.nextval, 'louis.lambert', FCT_GENERER_MOT_DE_PASSE(14), 'lambert', 'louis', '3686 Avenue de la liberation', 'G1V 3P4', 'CANADA', '(418)263-4410','(418)263-4412','Fran√ßais','/LLambert.png','Llambert.com','ICON','louis.lambert@icon.com', 20 ,0,0,1);
 
 insert into TP2_MEMBRE( NO_MEMBRE,  UTILISATEUR_MEM, MOT_DE_PASSE_MEM, NOM_MEM, PRENOM_MEM, ADRESSE_MEM, CODE_POSTAL_MEM, PAYS_MEM, TEL_MEM, FAX_MEM, LANGUE_CORRESPONDANCE_MEM,
   NOM_FICHIER_PHOTO_MEM, ADRESSE_WEB_MEM, INSTITUTION_MEM, COURRIEL_MEM, NO_MEMBRE_PATRON, EST_ADMINISTRATEUR_MEM, EST_SUPERVISEUR_MEM, EST_APPOUVEE_INSCRIPTION_MEM) 
-    values ( NO_MEMBRE_SEQ.nextval, 'frederic.larouche', FCT_GENERER_MOT_DE_PASSE(14), 'larouche', 'frederic', '1516 Avenue de Sherbrooke', 'G1J 6V4', 'CANADA', '(418)552-4540','(418)552-4541','FranÁais','/Flarouche.png','Flarouche.com','ICON','frederic.larouche@icon.com', 20 ,0,0,1);
+    values ( NO_MEMBRE_SEQ.nextval, 'frederic.larouche', FCT_GENERER_MOT_DE_PASSE(14), 'larouche', 'frederic', '1516 Avenue de Sherbrooke', 'G1J 6V4', 'CANADA', '(418)552-4540','(418)552-4541','Fran√ßais','/Flarouche.png','Flarouche.com','ICON','frederic.larouche@icon.com', 20 ,0,0,1);
 
 insert into TP2_MEMBRE( NO_MEMBRE,  UTILISATEUR_MEM, MOT_DE_PASSE_MEM, NOM_MEM, PRENOM_MEM, ADRESSE_MEM, CODE_POSTAL_MEM, PAYS_MEM, TEL_MEM, FAX_MEM, LANGUE_CORRESPONDANCE_MEM,
   NOM_FICHIER_PHOTO_MEM, ADRESSE_WEB_MEM, INSTITUTION_MEM, COURRIEL_MEM, NO_MEMBRE_PATRON, EST_ADMINISTRATEUR_MEM, EST_SUPERVISEUR_MEM, EST_APPOUVEE_INSCRIPTION_MEM) 
-    values ( NO_MEMBRE_SEQ.nextval, 'Sebastien.Plante', FCT_GENERER_MOT_DE_PASSE(14), 'Plante', 'Sebastien', '1766 Avenue du chateau', 'G1V 4P5', 'CANADA', '(418)334-4220','(418)334-4221','FranÁais','/SPlante.png','Splante.com','PIXEL','sebastien.plante@icon.com', 20 ,0,0,1);
+    values ( NO_MEMBRE_SEQ.nextval, 'Sebastien.Plante', FCT_GENERER_MOT_DE_PASSE(14), 'Plante', 'Sebastien', '1766 Avenue du chateau', 'G1V 4P5', 'CANADA', '(418)334-4220','(418)334-4221','Fran√ßais','/SPlante.png','Splante.com','PIXEL','sebastien.plante@icon.com', 20 ,0,0,1);
 
 
 /************* EQUIPES PROJET SYNAPS *******/
@@ -607,13 +607,13 @@ insert into TP2_EQUIPE_PROJET ( NO_MEMBRE, NO_PROJET, EST_DIRECTEUR_PRO) values 
 
 
 
-insert into TP2_RAPPORT_ETAT ( CODE_ETAT_RAP, NOM_ETAT_RAP) values ( 'DEBU', 'DÈbutÈ');
+insert into TP2_RAPPORT_ETAT ( CODE_ETAT_RAP, NOM_ETAT_RAP) values ( 'DEBU', 'D√©but√©');
   
-insert into TP2_RAPPORT_ETAT ( CODE_ETAT_RAP, NOM_ETAT_RAP) values ( 'VERI', 'En vÈrification');
+insert into TP2_RAPPORT_ETAT ( CODE_ETAT_RAP, NOM_ETAT_RAP) values ( 'VERI', 'En v√©rification');
   
 insert into TP2_RAPPORT_ETAT ( CODE_ETAT_RAP, NOM_ETAT_RAP) values ( 'CORR', 'En correction');
   
-insert into TP2_RAPPORT_ETAT ( CODE_ETAT_RAP, NOM_ETAT_RAP) values ( 'APPR', 'ApprouvÈ');
+insert into TP2_RAPPORT_ETAT ( CODE_ETAT_RAP, NOM_ETAT_RAP) values ( 'APPR', 'Approuv√©');
   
 /**
 select * from TP2_RAPPORT_ETAT;
