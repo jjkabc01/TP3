@@ -2,11 +2,12 @@
 $proteger = true;
 
 include('header.php');
-
+//si une redirection est faite vers la page membre avec un numero d'employée
 if (isset($_GET['NO_MEMBRE']))  {
-    
+    //on recupère le numero du membre pour affichage et pou la requête
     $NO_MEMBRE = $_GET['NO_MEMBRE'];
     
+    //réquête pour sortir les informations du memenbre
     $stid = oci_parse($conn, "select NO_MEMBRE, UTILISATEUR_MEM, NOM_MEM, PRENOM_MEM, ADRESSE_MEM, CODE_POSTAL_MEM, TEL_MEM, LANGUE_CORRESPONDANCE_MEM, NOM_FICHIER_PHOTO_MEM
                               from TP2_MEMBRE 
                               where NO_MEMBRE = '$NO_MEMBRE' ");
@@ -14,7 +15,7 @@ if (isset($_GET['NO_MEMBRE']))  {
     oci_execute($stid);
     
     $MEMBRE = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS);
-    
+    //on recupère les information du membre pour affichage et pou la requête
     $Utilisateur = $MEMBRE['UTILISATEUR_MEM'];
     $Nom = $MEMBRE['NOM_MEM'];
     $Prenom = $MEMBRE['PRENOM_MEM'];

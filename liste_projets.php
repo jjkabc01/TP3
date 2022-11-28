@@ -4,6 +4,14 @@ $proteger = true;
 
 include('header.php');
 
+
+if (isset($_GET['resultat_recherche']))  {
+    //si la page liste_projets est appélé avec le resultat d'une récherche (NO_projet)
+    //faire quelque chose
+}
+
+
+
 //si le boutton Archiver est cliqué et qu'une date d'archivage est entrée ex:15-10-01
 if(isset($_POST['archiver']) && isset($_POST['date_archive'])){
     //on reccupe la date d'archivage et le nom d'utilisateur pour exécuter la procédure d'archivage
@@ -20,7 +28,7 @@ if(isset($_POST['update']) && isset($_POST['NO_PROJET'])){
     // on reccupère le numéro du projet à modifier
     $NO_PROJET = $_POST['NO_PROJET'];
     // on renvoie la page un projet en mode modification avec le numero du projet
-    header('Location: un_projet.php?noprojet='.$NO_PROJET); 
+    header('Location: un_projet.php?NO_PROJET='.$NO_PROJET); 
 }
 
 //si le boutton creer projet est cliqué
@@ -35,7 +43,7 @@ if(isset($_POST['rechercher'])){
 }
 
 //À supprimmer pour tester la page un_membre.php 
-if(isset($_POST['membre'])){
+if(isset($_POST['MEMBRE_EQUIPE'])){
     //on renvoie la page un_membre.php avec le membre 
     header('Location: un_membre.php?NO_MEMBRE=20');
 }
@@ -133,6 +141,7 @@ if (isset($_POST['projet']) && isset($_POST['NO_PROJET'])) {
     $stid = oci_parse($conn, "select NO_PROJET, NOM_PRO, MNT_ALLOUE_PRO, STATUT_PRO, DATE_DEBUT_PRO
                               from TP2_PROJET
                               where NO_PROJET = '$NO_PROJET'");
+    oci_execute($stid);
     // Si le resultat de la commande cherchant dans la table projet est vide alors le projet est surement archivé on cherche alors dans la table archive
     if(($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) == false){
         
