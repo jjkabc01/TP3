@@ -31,8 +31,7 @@ while (($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) != false)
 
 {
     echo "<tr>\n";
-    //echo "<td>".($row["NO_PRO"] !== null ? htmlspecialchars($row["NOM_RO"], ENT_QUOTES) : "&nbsp;")."</td>\n";
-    //header('Location: liste_projets.php');
+    
     echo "<td>".($row["NOM_PRO"] !== null ? htmlspecialchars($row["NOM_PRO"], ENT_QUOTES) : "&nbsp;")."</td>\n";
 }
 
