@@ -6,10 +6,19 @@ include('header.php');
 
 echo " un projet";
 
+if(isset($_POST['bouton_annuler'])){
+    header('Location: liste_projets.php');
+}
+
 if(isset($_POST['bouton_membre']) && isset($_POST['MEMBRE_EQUIPE'])){
     $NO_MEMBRE = $_POST['MEMBRE_EQUIPE'];
-    header('Location: un_membre.php?NO_MEMBRE='.$NO_MEMBRE);
-    
+    $_SESSION['NO_PROJET'];
+    header('Location: un_membre.php?NO_MEMBRE='.$NO_MEMBRE);   
+}
+
+if(isset($_POST['bouton_membre']) && !isset($_POST['MEMBRE_EQUIPE'])){
+    $NO_PROJET = $_POST['NO_PROJET'];
+    header('Location: un_projet.php?NO_PROJET='.$NO_PROJET);  
 }
 
 if(isset($_POST['bouton_ok']) && isset($_POST['NOM_PRO']) && isset($_POST['MNT_ALLOUE_PRO']) && isset($_POST['STATUT_PRO']) && isset($_POST['DATE_DEBUT_PRO']) && isset($_POST['DATE_FIN_PRO']) && $_SESSION['update'] == false){
@@ -75,18 +84,9 @@ if(isset($_GET['NO_PROJET'])){
                               from TP2_EQUIPE_PROJET E, TP2_MEMBRE M
                               where E.NO_MEMBRE = M.NO_MEMBRE and E.NO_PROJET = '$NO_PROJET' ");
     oci_execute($stid_equipe);
-    
-    //$RAPPORT = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS);
-    
-    /*
-    $NO_RAPPORT = $RAPPORT['NO_RAPPORT'];
-    $NOM_FICHIER_RAP = $RAPPORT ['NOM_FICHIER_RAP'];
-    $NOM_ETAT_RAP = $RAPPORT  ['NOM_ETAT_RAP'];
-    */
-    
+      
 
     echo "<form action='un_projet.php' method='post' >\n";
-    //echo "<label for='NO_PROJET'>NUMERO PROJET: </label> \n";  
     echo "Numéro projet: <input name='NO_PROJET' value='$NO_PROJET' readonly><br> \n";
     echo "Nom: <input type='text' name='NOM_PRO' value='$NOM_PRO'><br> \n";
     echo "Montant alloué: <input type='text' name='MNT_ALLOUE_PRO' value='$MNT_ALLOUE_PRO'><br> \n";
@@ -110,7 +110,7 @@ if(isset($_GET['NO_PROJET'])){
              $NOM_ETAT_RAP = $row  ['NOM_ETAT_RAP'];
              
             //on affiche une cellule du tableau html i.e.: <td> ... </td>
-             echo "  <option value='$NO_RAPPORT'>".'Numero du rapport'.$NO_RAPPORT.' | Nom du fichier: '.$NOM_FICHIER_RAP.' | Etat du rapport: '.$NOM_ETAT_RAP."</option>\n";       
+             echo "  <option value='$NO_RAPPORT'>".'Numero du rapport: '.$NO_RAPPORT.' | Nom du fichier: '.$NOM_FICHIER_RAP.' | Etat du rapport: '.$NOM_ETAT_RAP."</option>\n";       
     }
     echo "</select> \n";
     
@@ -129,13 +129,13 @@ if(isset($_GET['NO_PROJET'])){
     echo "</select> \n";
     
     echo "</br> \n";
-    echo "<input type='submit' name='bouton_membre' value='Détails membre1'><br> \n";
+    echo "<input type='submit' name='bouton_membre' value='Détails membre'><br> \n";
     echo "<input type='submit' name='bouton_ok' value=' OK '><br> \n";
     echo " <input type='submit' name='bouton_annuler' value='Annuler'> \n";  
     
     echo "</form> \n";
 }
-else 
+else
 {
     $_SESSION['update'] = false;
     
@@ -161,6 +161,7 @@ else
     
     echo "</br> \n";
     echo "<input type='submit' name='bouton_ok' value=' OK '><br> \n";
+    echo " <input type='submit' name='bouton_annuler' value='Annuler'> \n"; 
     echo "</form> \n";
 }
 
