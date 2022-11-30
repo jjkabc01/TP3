@@ -101,7 +101,12 @@ if (isset($_GET['NO_MEMBRE']))  {
     
     //on affiche la fin du tableau html
     echo "</table>\n";    
-
+    
+    
+    echo "<form action='liste_projets.php'> \n";
+    echo "<input type='submit' value='Retour à la page principale' /> \n";  
+    echo "</form> \n"; 
+    
 }
 
 ?>
