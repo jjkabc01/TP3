@@ -2,6 +2,7 @@
 $proteger = true;
 
 include('header.php');
+echo '<div><h2> Membre </h2></div>';
 //si une redirection est faite vers la page membre avec un numero d'employée
 if (isset($_GET['NO_MEMBRE']))  {
     //on recupère le numero du membre pour affichage et pou la requête

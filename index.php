@@ -91,8 +91,10 @@ de milliers de chercheurs a travers le monde.l'objectif de tous ses chercheurs e
 
 <form action="index.php" method="post" >
     <div>
-    	Nom d'utilisateur Membre : <input type="text" name="UTILISATEUR_MEM"><br>
-    	Mot de passe Membre : <input type="text" name="MOT_DE_PASSE_MEM"><br>
+    	<label for="fname">Nom d'utilisateur Membre :</label>
+    	 <input type="text" name="UTILISATEUR_MEM"><br>
+    	 <label for="fpass">Mot de passe Membre :</label>
+    	<input type="password" name="MOT_DE_PASSE_MEM"><br>
     </div>
 	<div >
 		<input class="boutton" type="submit" name="connecter" value="Se connecter">

@@ -4,8 +4,6 @@ $proteger = true;
 include('header.php');
 
 
-echo " un projet";
-
 if(isset($_POST['bouton_annuler'])){
     header('Location: liste_projets.php');
 }
@@ -56,6 +54,7 @@ if(isset($_POST['bouton_ok']) && isset($_POST['NOM_PRO']) && isset($_POST['MNT_A
 
 
 if(isset($_GET['NO_PROJET'])){
+    echo '<div><h2> Modifier le Projet </h2></div>';
     
     $_SESSION['update'] = true;
     
@@ -137,6 +136,8 @@ if(isset($_GET['NO_PROJET'])){
 }
 else
 {
+    echo '<div><h2> Creer un Projet </h2></div>';
+    
     $_SESSION['update'] = false;
     
     echo "<form action='un_projet.php' method='post' >\n";
@@ -166,12 +167,7 @@ else
 }
 
 
-
-
 ?>
-
-
-
 
 
 <footer>
