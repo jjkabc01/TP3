@@ -4,7 +4,7 @@ $proteger = true;
 include('header.php');
 
 
-echo "Rechercher un projet";
+echo '<div><h2> Rechercher Projet</h2></div>';
 
 
 ?>

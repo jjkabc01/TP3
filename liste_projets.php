@@ -1,13 +1,24 @@
 <?php
 
+//variable pour savoir si cette page est sensé être protégé ou non
 $proteger = true;
 
+//on ajoute le header
 include('header.php');
 
 
 if (isset($_GET['resultat_recherche']))  {
     //si la page liste_projets est appélé avec le resultat d'une récherche (NO_projet)
     //faire quelque chose
+    //On assigne le resultat de la recherche à une variable locale
+    $NO_PROJET = $_GET['resultat_recherche'];
+    $stid_projet = oci_parse($conn, "select NO_PROJET, NOM_PRO, MNT_ALLOUE_PRO, STATUT_PRO, DATE_DEBUT_PRO
+                              from TP2_PROJET
+                              where NO_PROJET = '$NO_PROJET'
+                              order by DATE_DEBUT_PRO desc");
+    //on execute la réquête
+    oci_execute($stid_projet);
+    
 }
 
 
@@ -44,24 +55,25 @@ if(isset($_POST['rechercher'])){
 }
 
 
-echo '<div><p> Liste projet</p></div>';
+echo '<div><h2> Liste Projets</h2></div>';
 
-$stid ="";
-$type ="";
+/*$stid ="";
+$type ="";*/
 
 if($_SESSION['TYPE_MEMBRE'] === 'administrateur' || $_SESSION['TYPE_MEMBRE'] === 'superviseur' )
 {
-    
+    //commande pour avoir les listes projets de la table projet
     $stid_projet = oci_parse($conn, "select NO_PROJET, NOM_PRO, MNT_ALLOUE_PRO, STATUT_PRO, DATE_DEBUT_PRO
                               from TP2_PROJET
                                 order by DATE_DEBUT_PRO desc");
-
+     //on execute la réquête
     oci_execute($stid_projet);
     
+    //commande pour avoir les listes projets archivés de la table projet archive
     $stid_projet_archive = oci_parse($conn, "select NO_PROJET, NOM_PRO, MNT_ALLOUE_PRO, STATUT_PRO, DATE_DEBUT_PRO
                                       from TP2_PROJET_ARCHIVE
                                         order by DATE_DEBUT_PRO desc");
-            
+    //on execute la réquête
     oci_execute($stid_projet_archive);
     
     
@@ -71,7 +83,7 @@ if($_SESSION['TYPE_MEMBRE'] === 'administrateur' || $_SESSION['TYPE_MEMBRE'] ===
     echo "<select size='20' name='NO_PROJET'> \n";
     
     while (($row = oci_fetch_array($stid_projet, OCI_ASSOC+OCI_RETURN_NULLS)) != false) {
-        
+            //Assignation des resulatat de la réquête à des variables locales   
             $NO_PROJET = $row['NO_PROJET'];
             $NOM_PRO = $row['NOM_PRO'];
             $MNT_ALLOUE_PRO = $row['MNT_ALLOUE_PRO'];
@@ -87,9 +99,9 @@ if($_SESSION['TYPE_MEMBRE'] === 'administrateur' || $_SESSION['TYPE_MEMBRE'] ===
                 "</option>\n";
         
     }
-    echo "  <option value=''> #### Debut projet Archivé ####</option>\n";
+    echo "  <option value=''> #### Debut projet Archivé ####</option>\n"; // affichage d'une séparation pour les projets archivés
     while (($row = oci_fetch_array($stid_projet_archive, OCI_ASSOC+OCI_RETURN_NULLS)) != false) {
-                   
+        //Assignation des resulatat de la réquête à des variables locales          
         $NO_PROJET = $row['NO_PROJET'];
         $NOM_PRO = $row['NOM_PRO'];
         $MNT_ALLOUE_PRO = $row['MNT_ALLOUE_PRO'];
@@ -116,8 +128,7 @@ if($_SESSION['TYPE_MEMBRE'] === 'administrateur' || $_SESSION['TYPE_MEMBRE'] ===
     echo "<input class='boutton' type='submit' name='update' value='Mettre à jour le projet'><br> \n";
     echo "<input class='boutton' type='submit' name='creer' value='Creer un projet'><br> \n";
     echo "<input class='boutton' type='submit' name='rechercher' value='Rechercher'><br> \n";
-    
-    //À supprimmer
+     
     
     echo "</div> \n";
     echo "<br><br> \n";
@@ -135,6 +146,7 @@ if($_SESSION['TYPE_MEMBRE'] === 'administrateur' || $_SESSION['TYPE_MEMBRE'] ===
 }
 else
 {  
+    //requête pour avoir la liste des projets assigné au membre sans les projets archivés
     $NO_MEMBRE = $_SESSION['NO_MEMBRE'];
     $stid = oci_parse($conn, "select E.NO_PROJET, P.NOM_PRO, P.MNT_ALLOUE_PRO, P.STATUT_PRO, P.DATE_DEBUT_PRO
                               from TP2_EQUIPE_PROJET E, TP2_PROJET P
@@ -143,7 +155,7 @@ else
                               and not exists (select * from TP2_PROJET_ARCHIVE A 
                                     where A.NO_PROJET = E.NO_PROJET)
                               order by P.DATE_DEBUT_PRO desc");
-    
+    //exécute réquête
     oci_execute($stid);
     
     
@@ -153,14 +165,14 @@ else
     echo "<select size='20' name='NO_PROJET'> \n";
     
     while (($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) != false) {
-        
+        //Assignation des resulatats de la réquête à des variables locales 
         $NO_PROJET = $row['NO_PROJET'];
         $NOM_PRO = $row['NOM_PRO'];
         $MNT_ALLOUE_PRO = $row['MNT_ALLOUE_PRO'];
         $STATUT_PRO = $row['STATUT_PRO'];
         $DATE_DEBUT_PRO = $row['DATE_DEBUT_PRO'];
         
-        //on affiche une cellule du tableau html i.e.: <td> ... </td>
+        //on affiche les options du selecte
         echo "  <option value='$NO_PROJET'>".'NO PROJET: '.($NO_PROJET!== null ? htmlspecialchars($NO_PROJET, ENT_QUOTES) : "&nbsp;")
         .' | NOM PROJET:  '.($NOM_PRO!== null ? htmlspecialchars($NOM_PRO, ENT_QUOTES) : "&nbsp;")
         .' | MONTANT PROJET: '.($MNT_ALLOUE_PRO!== null ? htmlspecialchars($MNT_ALLOUE_PRO, ENT_QUOTES) : "&nbsp;")
@@ -169,25 +181,7 @@ else
         "</option>\n";
         
     }
-    echo "  <option value=''> #### Debut projet Archivé ####</option>\n";
-    while (($row = oci_fetch_array($stid_projet_archive, OCI_ASSOC+OCI_RETURN_NULLS)) != false) {
-        
-        $NO_PROJET = $row['NO_PROJET'];
-        $NOM_PRO = $row['NOM_PRO'];
-        $MNT_ALLOUE_PRO = $row['MNT_ALLOUE_PRO'];
-        $STATUT_PRO = $row['STATUT_PRO'];
-        $DATE_DEBUT_PRO = $row['DATE_DEBUT_PRO'];
-        
-        //on affiche une cellule du tableau html i.e.: <td> ... </td>
-        echo "  <option value='$NO_PROJET'>".'NO PROJET: '.($NO_PROJET!== null ? htmlspecialchars($NO_PROJET, ENT_QUOTES) : "&nbsp;")
-        .' | NOM PROJET:  '.($NOM_PRO!== null ? htmlspecialchars($NOM_PRO, ENT_QUOTES) : "&nbsp;")
-        .' | MONTANT PROJET: '.($MNT_ALLOUE_PRO!== null ? htmlspecialchars($MNT_ALLOUE_PRO, ENT_QUOTES) : "&nbsp;")
-        .' | STATUT PROJET: '.($STATUT_PRO!== null ? htmlspecialchars($STATUT_PRO, ENT_QUOTES) : "&nbsp;")
-        .' | DATE DEBUT PROJET: '.($DATE_DEBUT_PRO!== null ? htmlspecialchars($DATE_DEBUT_PRO, ENT_QUOTES) : "&nbsp;").
-        "</option>\n";
-        
-    }
-    
+       
     //Création d'un select pour l'affichage des numeros projets
     echo "</select> \n";
     echo "<br><br> \n";
@@ -203,12 +197,6 @@ else
     echo "</div> \n";
     echo "<br><br> \n";
     
-    //Si l'usager connecté est un administrateur on affiche le boutton archiver
-    if($_SESSION['TYPE_MEMBRE'] === 'administrateur' )
-    {
-        echo "<input type='date' name='date_archive' placeholder='Format date AA-MM-JJ' >";
-        echo "<input class='boutton' type='submit' name='archiver' value='Archiver'><br> \n";
-    }
     
     echo "</form> \n"; //fin de la form pour l'affichage du select et des bouttons en dessous.
     
