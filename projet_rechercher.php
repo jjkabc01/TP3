@@ -76,7 +76,7 @@ echo "<input type='text' name='NOM_PRO'><br> \n";
 echo "<label for='fmontantalloue'>Montant alloué : </label> \n";
 echo "<input type='text' name='MNT_ALLOUE_PRO'><br> \n";
 echo "<label for='fdateprojet'>Date du projet: </label> \n";
-echo "<input type='text' name='DATE'> <br> \n";
+echo "<input type='text' placeholder='Format date AA-MM-JJ' name='DATE'> <br> \n";
 echo "<input class='boutton' type='submit' name='ok' value=' OK '> \n";
 echo "<input class='boutton' type = 'submit' name='annuler' value='Annuler'> \n";
 echo "</form>\n";

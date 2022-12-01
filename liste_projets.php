@@ -59,7 +59,7 @@ if (isset($_GET['resultat_recherche']))  {
         echo "Aucun Projet ne corresponds aux critères de recherche";
         
         echo "<form action='liste_projets.php'> \n";
-        echo "<input type='submit' value='Retour à la page principale' /> \n";
+        echo "<input type='submit' value='Tous' /> \n";
         echo "</form> \n"; 
     }
     else 
