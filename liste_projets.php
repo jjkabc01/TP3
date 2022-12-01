@@ -6,22 +6,10 @@ $proteger = true;
 //on ajoute le header
 include('header.php');
 
-
-if (isset($_GET['resultat_recherche']))  {
-    //si la page liste_projets est appélé avec le resultat d'une récherche (NO_projet)
-    //faire quelque chose
-    //On assigne le resultat de la recherche à une variable locale
-    $NO_PROJET = $_GET['resultat_recherche'];
-    $stid_projet = oci_parse($conn, "select NO_PROJET, NOM_PRO, MNT_ALLOUE_PRO, STATUT_PRO, DATE_DEBUT_PRO
-                              from TP2_PROJET
-                              where NO_PROJET = '$NO_PROJET'
-                              order by DATE_DEBUT_PRO desc");
-    //on execute la réquête
-    oci_execute($stid_projet);
+if (isset($_POST['tous']))  {
+    header('Location: liste_projets.php');
     
 }
-
-
 
 //si le boutton Archiver est cliqué et qu'une date d'archivage est entrée ex:15-10-01
 if(isset($_POST['archiver']) && isset($_POST['date_archive'])){
@@ -60,7 +48,62 @@ echo '<div><h2> Liste Projets</h2></div>';
 /*$stid ="";
 $type ="";*/
 
-if($_SESSION['TYPE_MEMBRE'] === 'administrateur' || $_SESSION['TYPE_MEMBRE'] === 'superviseur' )
+if (isset($_GET['resultat_recherche']))  {
+    //si la page liste_projets est appélé avec le resultat d'une récherche (NO_projet)
+    //faire quelque chose
+    //On assigne le resultat de la recherche à une variable locale
+    $NOPROJET = $_SESSION['resultat'];
+    
+    if(!isset($NOPROJET))
+    {
+        echo "Aucun Projet ne corresponds aux critères de recherche";
+        
+        echo "<form action='liste_projets.php'> \n";
+        echo "<input type='submit' value='Tous' /> \n";
+        echo "</form> \n"; 
+    }
+    else 
+    {
+        echo "<form action='liste_projets.php' method='post' >\n";
+        
+        echo "<select  size='20' name='NO_PROJET' > \n";
+        
+        foreach ($NOPROJET as $no_projet)
+        {
+            $stid = oci_parse($conn, "select NO_PROJET, NOM_PRO, MNT_ALLOUE_PRO, STATUT_PRO, DATE_DEBUT_PRO
+                              from TP2_PROJET
+                              where NO_PROJET = '$no_projet'
+                              order by DATE_DEBUT_PRO desc");
+            //on execute la réquête
+            oci_execute($stid);
+            
+            while (($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) != false) {
+                $NO_PROJET = $row['NO_PROJET'];
+                $NOM_PRO = $row['NOM_PRO'];
+                $MNT_ALLOUE_PRO = $row['MNT_ALLOUE_PRO'];
+                $STATUT_PRO = $row['STATUT_PRO'];
+                $DATE_DEBUT_PRO = $row['DATE_DEBUT_PRO'];
+                
+                echo "  <option value='$NO_PROJET'>".'NO PROJET: '.($NO_PROJET!== null ? htmlspecialchars($NO_PROJET, ENT_QUOTES) : "&nbsp;")
+                .' | NOM PROJET:  '.($NOM_PRO!== null ? htmlspecialchars($NOM_PRO, ENT_QUOTES) : "&nbsp;")
+                .' | MONTANT PROJET: '.($MNT_ALLOUE_PRO!== null ? htmlspecialchars($MNT_ALLOUE_PRO, ENT_QUOTES) : "&nbsp;")
+                .' | STATUT PROJET: '.($STATUT_PRO!== null ? htmlspecialchars($STATUT_PRO, ENT_QUOTES) : "&nbsp;")
+                .' | DATE DEBUT PROJET: '.($DATE_DEBUT_PRO!== null ? htmlspecialchars($DATE_DEBUT_PRO, ENT_QUOTES) : "&nbsp;").
+                "</option>\n";
+            }
+            
+        }
+        
+        echo "</select> \n";
+        echo "</br></br> \n";
+        echo "<input type='submit' name='tous' value='Tous'><br> \n";
+        
+        echo "</form>\n";
+                
+    }    
+    
+}
+elseif($_SESSION['TYPE_MEMBRE'] === 'administrateur' || $_SESSION['TYPE_MEMBRE'] === 'superviseur' )
 {
     //commande pour avoir les listes projets de la table projet
     $stid_projet = oci_parse($conn, "select NO_PROJET, NOM_PRO, MNT_ALLOUE_PRO, STATUT_PRO, DATE_DEBUT_PRO
@@ -99,7 +142,7 @@ if($_SESSION['TYPE_MEMBRE'] === 'administrateur' || $_SESSION['TYPE_MEMBRE'] ===
                 "</option>\n";
         
     }
-    echo "  <option value=''> #### Debut projet Archivé ####</option>\n"; // affichage d'une séparation pour les projets archivés
+    echo "  <option value=''> #### Debut Projets Archivés ####</option>\n"; // affichage d'une séparation pour les projets archivés
     while (($row = oci_fetch_array($stid_projet_archive, OCI_ASSOC+OCI_RETURN_NULLS)) != false) {
         //Assignation des resulatat de la réquête à des variables locales          
         $NO_PROJET = $row['NO_PROJET'];
