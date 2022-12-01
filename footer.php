@@ -10,5 +10,6 @@
 
 
 <div class="copy">
-<p>Tout droit réservé copyright &copy;  CIPRÉ,  Équipe no6, IFT-2004 Séssion d'automne 2022</p>
+<p>Tout droit réservé copyright &copy;  CIPRÉ,  Équipe no6, IFT-2004 Session d'automne <?php print(gmdate("Y"));?> </p>
+
 </div>

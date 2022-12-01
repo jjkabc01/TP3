@@ -81,13 +81,13 @@ if (isset($_GET['action']) && $_GET['action'] === 'deconnecter' )  {
 
 <section class="presentation">
 <h1>Bienvenue sur le portail de CIPRE</h1>
-<p>CPRE est un centre de recherche internationnal qui compe de milliers<br>
-de milliers de chercheurs a travers le monde.l'objectif de tous ses chercheurs est<br>
-      centré sur des recherche pour repondre aux bésoin du monde.
+<p>CIPRE est un centre de recherche international qui compte des milliers
+de chercheurs à travers le monde.
+<br>L'objectif de tous ces chercheurs est centré sur des recherches pour repondre aux bésoins du monde.
 </p>
 </section>
 
-<p>Merci de entrer votre nom d'utilisateur et votre mot de passe et cliquez sur le boutton Se connecter.</p>
+<p>Merci d'entrer votre nom d'utilisateur et votre mot de passe et cliquez sur le bouton Se connecter.</p>
 
 <form action="index.php" method="post" >
     <div>
