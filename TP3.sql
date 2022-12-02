@@ -58,12 +58,12 @@ create table TP2_PROJET (
   NO_PROJET number(10) not null, 
   NOM_PRO varchar2(30) not null,
   MNT_ALLOUE_PRO number(9,2) default 0.0 not null, 
-  STATUT_PRO varchar2(30) default 'Débuté' not null,
+  STATUT_PRO varchar2(30) default 'Préliminaire' not null,
   DATE_DEBUT_PRO date not null,
   DATE_FIN_PRO date not null,
   constraint PK_TP2_PROJET primary key (NO_PROJET),
   constraint AK_TP2_PROJET_NOM_PRO unique (NOM_PRO),
-  constraint CT_STATUT_PRO check (STATUT_PRO in ('Débuté', 'En vérification', 'En correction', 'Terminé')),
+  constraint CT_STATUT_PRO check (STATUT_PRO in ('Accepté', 'En correction', 'Préliminaire', 'Intermédiaire', 'Final', 'Terminé')),
   constraint CT_MNT_ALLOUE_PRO_SUPERIEUR_EGAL_0 check(MNT_ALLOUE_PRO >= 0),
   constraint CT_DATE_FIN_PRO_SUPERIEUR_DATE_DEBUT_PRO check (DATE_FIN_PRO > DATE_DEBUT_PRO)
   
@@ -342,6 +342,58 @@ create or replace view VUE_HIERACHIE_MEMBRE as
                     references TP2_RAPPORT_ETAT (CODE_ETAT_RAP)	
 );
 
+/********* Création de la Procédure stockée SP_ARCHIVER_PROJET *************/
+    create or replace procedure SP_ARCHIVER_PROJET (V_DATE_FIN_PROJET date) is 
+        V_DATE_2_ANS date;
+        
+    begin 
+        select (TRUNC(SYSDATE) - INTERVAL '2' YEAR) into V_DATE_2_ANS from DUAL ;   
+
+        declare 
+            E_DATE_INVALIDE exception;
+
+            cursor ANCIEN_PROJET_CURSEUR is
+                select NO_PROJET, NOM_PRO, MNT_ALLOUE_PRO, STATUT_PRO, DATE_DEBUT_PRO, DATE_FIN_PRO 
+                    from TP2_PROJET
+                    where DATE_FIN_PRO < V_DATE_FIN_PROJET  and STATUT_PRO = 'Terminé'
+                    order by NO_PROJET asc;
+                    
+        begin
+        
+         if V_DATE_FIN_PROJET > V_DATE_2_ANS then
+            raise E_DATE_INVALIDE;
+            end if;
+        
+            for ENR_PROJET in ANCIEN_PROJET_CURSEUR
+            loop 
+                insert into TP2_PROJET_ARCHIVE( NO_PROJET, NOM_PRO, MNT_ALLOUE_PRO, STATUT_PRO, DATE_DEBUT_PRO, DATE_FIN_PRO) 
+                    values ( ENR_PROJET.NO_PROJET, ENR_PROJET.NOM_PRO, ENR_PROJET.MNT_ALLOUE_PRO, ENR_PROJET.STATUT_PRO, ENR_PROJET.DATE_DEBUT_PRO, ENR_PROJET.DATE_FIN_PRO);
+                    
+                 insert into TP2_RAPPORT_ARCHIVE (NO_RAPPORT, NO_PROJET, TITRE_RAP, NOM_FICHIER_RAP, DATE_DEPOT_RAP, CODE_ETAT_RAP)
+                    select NO_RAPPORT, NO_PROJET, TITRE_RAP, NOM_FICHIER_RAP, DATE_DEPOT_RAP, CODE_ETAT_RAP
+                        from TP2_RAPPORT
+                        where NO_PROJET = ENR_PROJET.NO_PROJET;
+                
+                
+                delete from TP2_RAPPORT where NO_PROJET = ENR_PROJET.NO_PROJET;
+                
+                delete from TP2_EQUIPE_PROJET where NO_PROJET = ENR_PROJET.NO_PROJET;
+                
+                delete from TP2_PROJET where NO_PROJET = ENR_PROJET.NO_PROJET;
+                
+                
+            end loop;
+                       
+        exception
+            When E_DATE_INVALIDE then
+                dbms_output.put_line('La date fournie dois être veille que 2 ans');
+        end;
+        
+end SP_ARCHIVER_PROJET;
+  /
+
+
+
     /********* Création de la Procédure stockée TP3_SP_ARCHIVER_PROJET *************/
     create or replace procedure TP3_SP_ARCHIVER_PROJET (V_DATE_FIN_PROJET date, V_UTILISATEUR_ADMINISTRATEUR  varchar2) is 
         V_DATE_2_ANS date;
@@ -533,25 +585,25 @@ end TP3_SP_ARCHIVER_PROJET;
 
 /****************** PROJETS ******************/
 insert into TP2_PROJET ( NO_PROJET, NOM_PRO, MNT_ALLOUE_PRO, STATUT_PRO, DATE_DEBUT_PRO, DATE_FIN_PRO ) 
-    values (NO_PROJET_SEQ.nextval, 'projet synaps', 350000, 'Débuté', to_date('15-01-10','RR-MM-DD'), to_date('16-08-01','RR-MM-DD'));
+    values (NO_PROJET_SEQ.nextval, 'projet synaps', 350000, 'Préliminaire', to_date('22-01-10','RR-MM-DD'), to_date('22-08-01','RR-MM-DD'));
     
 insert into TP2_PROJET ( NO_PROJET, NOM_PRO, MNT_ALLOUE_PRO, STATUT_PRO, DATE_DEBUT_PRO, DATE_FIN_PRO ) 
-    values (NO_PROJET_SEQ.nextval, 'projet epic', 620000, 'En correction', to_date('16-06-15','RR-MM-DD'), to_date('16-08-01','RR-MM-DD'));
+    values (NO_PROJET_SEQ.nextval, 'projet epic', 620000, 'Accepté', to_date('19-06-15','RR-MM-DD'), to_date('20-08-01','RR-MM-DD'));
     
 insert into TP2_PROJET ( NO_PROJET, NOM_PRO, MNT_ALLOUE_PRO, STATUT_PRO, DATE_DEBUT_PRO, DATE_FIN_PRO ) 
-    values (NO_PROJET_SEQ.nextval, 'projet cervo', 470000, 'Débuté', to_date('15-05-12','RR-MM-DD'), to_date('16-06-01','RR-MM-DD'));
+    values (NO_PROJET_SEQ.nextval, 'projet cervo', 470000, 'En correction', to_date('21-05-12','RR-MM-DD'), to_date('23-06-01','RR-MM-DD'));
     
 insert into TP2_PROJET ( NO_PROJET, NOM_PRO, MNT_ALLOUE_PRO, STATUT_PRO, DATE_DEBUT_PRO, DATE_FIN_PRO ) 
-    values (NO_PROJET_SEQ.nextval, 'projet intelijet', 320000, 'En correction', to_date('14-04-13','RR-MM-DD'), to_date('15-09-05','RR-MM-DD'));
+    values (NO_PROJET_SEQ.nextval, 'projet intelijet', 320000, 'Intermédiaire', to_date('14-04-13','RR-MM-DD'), to_date('15-09-05','RR-MM-DD'));
     
 insert into TP2_PROJET ( NO_PROJET, NOM_PRO, MNT_ALLOUE_PRO, STATUT_PRO, DATE_DEBUT_PRO, DATE_FIN_PRO ) 
-    values (NO_PROJET_SEQ.nextval, 'projet mirage ', 470000, 'En vérification', to_date('13-03-12','RR-MM-DD'), to_date('14-05-06','RR-MM-DD'));
+    values (NO_PROJET_SEQ.nextval, 'projet mirage ', 470000, 'Final', to_date('13-03-12','RR-MM-DD'), to_date('14-05-06','RR-MM-DD'));
     
 insert into TP2_PROJET ( NO_PROJET, NOM_PRO, MNT_ALLOUE_PRO, STATUT_PRO, DATE_DEBUT_PRO, DATE_FIN_PRO ) 
-    values (NO_PROJET_SEQ.nextval, 'projet nuvera', 410000, 'Débuté', to_date('15-06-12','RR-MM-DD'), to_date('16-02-04','RR-MM-DD'));
+    values (NO_PROJET_SEQ.nextval, 'projet nuvera', 410000, 'Terminé', to_date('16-06-12','RR-MM-DD'), to_date('18-02-04','RR-MM-DD'));
     
 insert into TP2_PROJET ( NO_PROJET, NOM_PRO, MNT_ALLOUE_PRO, STATUT_PRO, DATE_DEBUT_PRO, DATE_FIN_PRO ) 
-    values (NO_PROJET_SEQ.nextval, 'projet fiery', 230000, 'En vérification', to_date('14-03-12','RR-MM-DD'), to_date('15-08-04','RR-MM-DD'));
+    values (NO_PROJET_SEQ.nextval, 'projet fiery', 230000, 'Terminé', to_date('14-03-12','RR-MM-DD'), to_date('14-08-04','RR-MM-DD'));
     
     
 
@@ -559,32 +611,32 @@ insert into TP2_PROJET ( NO_PROJET, NOM_PRO, MNT_ALLOUE_PRO, STATUT_PRO, DATE_DE
 /** Un administrateur ****/
 insert into TP2_MEMBRE( NO_MEMBRE,  UTILISATEUR_MEM, MOT_DE_PASSE_MEM, NOM_MEM, PRENOM_MEM, ADRESSE_MEM, CODE_POSTAL_MEM, PAYS_MEM, TEL_MEM, FAX_MEM, LANGUE_CORRESPONDANCE_MEM,
   NOM_FICHIER_PHOTO_MEM, ADRESSE_WEB_MEM, INSTITUTION_MEM, COURRIEL_MEM, NO_MEMBRE_PATRON, EST_ADMINISTRATEUR_MEM, EST_SUPERVISEUR_MEM, EST_APPOUVEE_INSCRIPTION_MEM) 
-    values ( NO_MEMBRE_SEQ.nextval, 'jean.tremblay', FCT_GENERER_MOT_DE_PASSE(14), 'tremblay', 'jean', '2325 Rue de la vie Etudiante', 'G1V 0B3', 'CANADA', '(514)699-3569','(514)699-4569','Français','/JTremblay.png','Jtremblay.com','NASA','jean.tremblay@nasa.com', 5 ,1,0,1);
+    values ( NO_MEMBRE_SEQ.nextval, 'jean.tremblay', FCT_GENERER_MOT_DE_PASSE(14), 'tremblay', 'jean', '2325 Rue de la vie Etudiante', 'G1V 0B3', 'CANADA', '(514)699-3569','(514)699-4569','Français','/img/JTremblay.png','Jtremblay.com','NASA','jean.tremblay@nasa.com', 5 ,1,0,1);
 
 /** Un superviseur **/
 insert into TP2_MEMBRE( NO_MEMBRE,  UTILISATEUR_MEM, MOT_DE_PASSE_MEM, NOM_MEM, PRENOM_MEM, ADRESSE_MEM, CODE_POSTAL_MEM, PAYS_MEM, TEL_MEM, FAX_MEM, LANGUE_CORRESPONDANCE_MEM,
   NOM_FICHIER_PHOTO_MEM, ADRESSE_WEB_MEM, INSTITUTION_MEM, COURRIEL_MEM, NO_MEMBRE_PATRON, EST_ADMINISTRATEUR_MEM, EST_SUPERVISEUR_MEM, EST_APPOUVEE_INSCRIPTION_MEM) 
-    values ( NO_MEMBRE_SEQ.nextval, 'eric.gagnon', FCT_GENERER_MOT_DE_PASSE(14), 'gagnon', 'eric', '2255 Rue des Pins Ouest', 'G1J 1T3', 'CANADA', '(418)646-2254','(418)646-2255','Français','/EGagnon.png','Egagnon.com','ETS','eric.gagnon@ets.com', 5 ,0,1,1);
+    values ( NO_MEMBRE_SEQ.nextval, 'eric.gagnon', FCT_GENERER_MOT_DE_PASSE(14), 'gagnon', 'eric', '2255 Rue des Pins Ouest', 'G1J 1T3', 'CANADA', '(418)646-2254','(418)646-2255','Français','/img/EGagnon.png','Egagnon.com','ETS','eric.gagnon@ets.com', 5 ,0,1,1);
 
 
 /** un membre directeur **/
 insert into TP2_MEMBRE( NO_MEMBRE,  UTILISATEUR_MEM, MOT_DE_PASSE_MEM, NOM_MEM, PRENOM_MEM, ADRESSE_MEM, CODE_POSTAL_MEM, PAYS_MEM, TEL_MEM, FAX_MEM, LANGUE_CORRESPONDANCE_MEM,
   NOM_FICHIER_PHOTO_MEM, ADRESSE_WEB_MEM, INSTITUTION_MEM, COURRIEL_MEM, NO_MEMBRE_PATRON, EST_ADMINISTRATEUR_MEM, EST_SUPERVISEUR_MEM, EST_APPOUVEE_INSCRIPTION_MEM) 
-    values ( NO_MEMBRE_SEQ.nextval, 'julie.cagé', FCT_GENERER_MOT_DE_PASSE(14), 'cagé', 'julie', '1015 Avenue des Promenades', 'G1X 2P4', 'CANADA', '(418)353-1510','(418)353-1511','Français','/JCage.png','Jcage.com','PRISME','julie.cage@prisme.com', 15 ,0,0,1);
+    values ( NO_MEMBRE_SEQ.nextval, 'julie.cagé', FCT_GENERER_MOT_DE_PASSE(14), 'cagé', 'julie', '1015 Avenue des Promenades', 'G1X 2P4', 'CANADA', '(418)353-1510','(418)353-1511','Français','/img/JCage.png','Jcage.com','PRISME','julie.cage@prisme.com', 15 ,0,0,1);
 
 
 /** membres **/
 insert into TP2_MEMBRE( NO_MEMBRE,  UTILISATEUR_MEM, MOT_DE_PASSE_MEM, NOM_MEM, PRENOM_MEM, ADRESSE_MEM, CODE_POSTAL_MEM, PAYS_MEM, TEL_MEM, FAX_MEM, LANGUE_CORRESPONDANCE_MEM,
   NOM_FICHIER_PHOTO_MEM, ADRESSE_WEB_MEM, INSTITUTION_MEM, COURRIEL_MEM, NO_MEMBRE_PATRON, EST_ADMINISTRATEUR_MEM, EST_SUPERVISEUR_MEM, EST_APPOUVEE_INSCRIPTION_MEM) 
-    values ( NO_MEMBRE_SEQ.nextval, 'louis.lambert', FCT_GENERER_MOT_DE_PASSE(14), 'lambert', 'louis', '3686 Avenue de la liberation', 'G1V 3P4', 'CANADA', '(418)263-4410','(418)263-4412','Français','/LLambert.png','Llambert.com','ICON','louis.lambert@icon.com', 20 ,0,0,1);
+    values ( NO_MEMBRE_SEQ.nextval, 'louis.lambert', FCT_GENERER_MOT_DE_PASSE(14), 'lambert', 'louis', '3686 Avenue de la liberation', 'G1V 3P4', 'CANADA', '(418)263-4410','(418)263-4412','Français','/img/LLambert.png','Llambert.com','ICON','louis.lambert@icon.com', 20 ,0,0,1);
 
 insert into TP2_MEMBRE( NO_MEMBRE,  UTILISATEUR_MEM, MOT_DE_PASSE_MEM, NOM_MEM, PRENOM_MEM, ADRESSE_MEM, CODE_POSTAL_MEM, PAYS_MEM, TEL_MEM, FAX_MEM, LANGUE_CORRESPONDANCE_MEM,
   NOM_FICHIER_PHOTO_MEM, ADRESSE_WEB_MEM, INSTITUTION_MEM, COURRIEL_MEM, NO_MEMBRE_PATRON, EST_ADMINISTRATEUR_MEM, EST_SUPERVISEUR_MEM, EST_APPOUVEE_INSCRIPTION_MEM) 
-    values ( NO_MEMBRE_SEQ.nextval, 'frederic.larouche', FCT_GENERER_MOT_DE_PASSE(14), 'larouche', 'frederic', '1516 Avenue de Sherbrooke', 'G1J 6V4', 'CANADA', '(418)552-4540','(418)552-4541','Français','/Flarouche.png','Flarouche.com','ICON','frederic.larouche@icon.com', 20 ,0,0,1);
+    values ( NO_MEMBRE_SEQ.nextval, 'frederic.larouche', FCT_GENERER_MOT_DE_PASSE(14), 'larouche', 'frederic', '1516 Avenue de Sherbrooke', 'G1J 6V4', 'CANADA', '(418)552-4540','(418)552-4541','Français','/img/Flarouche.png','Flarouche.com','ICON','frederic.larouche@icon.com', 20 ,0,0,1);
 
 insert into TP2_MEMBRE( NO_MEMBRE,  UTILISATEUR_MEM, MOT_DE_PASSE_MEM, NOM_MEM, PRENOM_MEM, ADRESSE_MEM, CODE_POSTAL_MEM, PAYS_MEM, TEL_MEM, FAX_MEM, LANGUE_CORRESPONDANCE_MEM,
   NOM_FICHIER_PHOTO_MEM, ADRESSE_WEB_MEM, INSTITUTION_MEM, COURRIEL_MEM, NO_MEMBRE_PATRON, EST_ADMINISTRATEUR_MEM, EST_SUPERVISEUR_MEM, EST_APPOUVEE_INSCRIPTION_MEM) 
-    values ( NO_MEMBRE_SEQ.nextval, 'Sebastien.Plante', FCT_GENERER_MOT_DE_PASSE(14), 'Plante', 'Sebastien', '1766 Avenue du chateau', 'G1V 4P5', 'CANADA', '(418)334-4220','(418)334-4221','Français','/SPlante.png','Splante.com','PIXEL','sebastien.plante@icon.com', 20 ,0,0,1);
+    values ( NO_MEMBRE_SEQ.nextval, 'Sebastien.Plante', FCT_GENERER_MOT_DE_PASSE(14), 'Plante', 'Sebastien', '1766 Avenue du chateau', 'G1V 4P5', 'CANADA', '(418)334-4220','(418)334-4221','Français','/img/SPlante.png','Splante.com','PIXEL','sebastien.plante@icon.com', 20 ,0,0,1);
 
 
 /************* EQUIPES PROJET SYNAPS *******/
@@ -621,23 +673,22 @@ select * from TP2_RAPPORT_ETAT;
 
 /*** RAPPORTS **/
 insert into TP2_RAPPORT ( NO_RAPPORT, NO_PROJET, TITRE_RAP, NOM_FICHIER_RAP, DATE_DEPOT_RAP, CODE_ETAT_RAP)
-    values ( NO_RAPPORT_SEQ.nextval, 1000, 'Rapport synaps', '/fichier_synaps.docx', to_date('16-06-01','RR-MM-DD'), 'DEBU');
+    values ( NO_RAPPORT_SEQ.nextval, 1000, 'Rapport synaps', '/rapport/fichier_synaps.docx', to_date('16-06-01','RR-MM-DD'), 'DEBU');
     
 insert into TP2_RAPPORT ( NO_RAPPORT, NO_PROJET, TITRE_RAP, NOM_FICHIER_RAP, DATE_DEPOT_RAP, CODE_ETAT_RAP)
-    values ( NO_RAPPORT_SEQ.nextval, 1001, 'Rapport epic', '/fichier_epic.docx', to_date('16-07-01','RR-MM-DD'), 'CORR');
+    values ( NO_RAPPORT_SEQ.nextval, 1001, 'Rapport epic', '/rapport/fichier_epic.docx', to_date('16-07-01','RR-MM-DD'), 'CORR');
     
 insert into TP2_RAPPORT ( NO_RAPPORT, NO_PROJET, TITRE_RAP, NOM_FICHIER_RAP, DATE_DEPOT_RAP, CODE_ETAT_RAP)
-    values ( NO_RAPPORT_SEQ.nextval, 1002, 'Rapport cervo', '/fichier_cervo.docx', to_date('16-08-01','RR-MM-DD'), 'DEBU');
+    values ( NO_RAPPORT_SEQ.nextval, 1002, 'Rapport cervo', '/rapport/fichier_cervo.docx', to_date('16-08-01','RR-MM-DD'), 'DEBU');
     
 insert into TP2_RAPPORT ( NO_RAPPORT, NO_PROJET, TITRE_RAP, NOM_FICHIER_RAP, DATE_DEPOT_RAP, CODE_ETAT_RAP)
-    values ( NO_RAPPORT_SEQ.nextval, 1003, 'RAPPORT Intelijet', '/fichier_Intelijet.docx', to_date('15-07-05','RR-MM-DD'), 'CORR');
+    values ( NO_RAPPORT_SEQ.nextval, 1003, 'RAPPORT Intelijet', '/rapport/fichier_Intelijet.docx', to_date('15-07-05','RR-MM-DD'), 'CORR');
     
 insert into TP2_RAPPORT ( NO_RAPPORT, NO_PROJET, TITRE_RAP, NOM_FICHIER_RAP, DATE_DEPOT_RAP, CODE_ETAT_RAP)
-    values ( NO_RAPPORT_SEQ.nextval, 1004, 'Rapport mirage', '/fichier_mirage.docx', to_date('14-01-06','RR-MM-DD'), 'VERI');
+    values ( NO_RAPPORT_SEQ.nextval, 1004, 'Rapport mirage', '/rapport/fichier_mirage.docx', to_date('14-01-06','RR-MM-DD'), 'VERI');
     
 insert into TP2_RAPPORT ( NO_RAPPORT, NO_PROJET, TITRE_RAP, NOM_FICHIER_RAP, DATE_DEPOT_RAP, CODE_ETAT_RAP)
-    values ( NO_RAPPORT_SEQ.nextval, 1005, 'Rapport nuvera', '/fichier_nuvera.docx', to_date('15-07-12','RR-MM-DD'), 'DEBU');
+    values ( NO_RAPPORT_SEQ.nextval, 1005, 'Rapport nuvera', '/rapport/fichier_nuvera.docx', to_date('15-07-12','RR-MM-DD'), 'DEBU');
     
 insert into TP2_RAPPORT ( NO_RAPPORT, NO_PROJET, TITRE_RAP, NOM_FICHIER_RAP, DATE_DEPOT_RAP, CODE_ETAT_RAP)
-    values ( NO_RAPPORT_SEQ.nextval, 1006, 'Rapport fiery', '/fichier_fiery.docx', to_date('15-07-04','RR-MM-DD'), 'VERI');
-    
+    values ( NO_RAPPORT_SEQ.nextval, 1006, 'Rapport fiery', '/rapport/fichier_fiery.docx', to_date('15-07-04','RR-MM-DD'), 'VERI');
