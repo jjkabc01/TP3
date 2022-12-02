@@ -611,32 +611,32 @@ insert into TP2_PROJET ( NO_PROJET, NOM_PRO, MNT_ALLOUE_PRO, STATUT_PRO, DATE_DE
 /** Un administrateur ****/
 insert into TP2_MEMBRE( NO_MEMBRE,  UTILISATEUR_MEM, MOT_DE_PASSE_MEM, NOM_MEM, PRENOM_MEM, ADRESSE_MEM, CODE_POSTAL_MEM, PAYS_MEM, TEL_MEM, FAX_MEM, LANGUE_CORRESPONDANCE_MEM,
   NOM_FICHIER_PHOTO_MEM, ADRESSE_WEB_MEM, INSTITUTION_MEM, COURRIEL_MEM, NO_MEMBRE_PATRON, EST_ADMINISTRATEUR_MEM, EST_SUPERVISEUR_MEM, EST_APPOUVEE_INSCRIPTION_MEM) 
-    values ( NO_MEMBRE_SEQ.nextval, 'jean.tremblay', FCT_GENERER_MOT_DE_PASSE(14), 'tremblay', 'jean', '2325 Rue de la vie Etudiante', 'G1V 0B3', 'CANADA', '(514)699-3569','(514)699-4569','Français','/img/JTremblay.png','Jtremblay.com','NASA','jean.tremblay@nasa.com', 5 ,1,0,1);
+    values ( NO_MEMBRE_SEQ.nextval, 'jean.tremblay', FCT_GENERER_MOT_DE_PASSE(14), 'tremblay', 'jean', '2325 Rue de la vie Etudiante', 'G1V 0B3', 'CANADA', '(514)699-3569','(514)699-4569','Français','/img/JTremblay.jpeg','Jtremblay.com','NASA','jean.tremblay@nasa.com', 5 ,1,0,1);
 
 /** Un superviseur **/
 insert into TP2_MEMBRE( NO_MEMBRE,  UTILISATEUR_MEM, MOT_DE_PASSE_MEM, NOM_MEM, PRENOM_MEM, ADRESSE_MEM, CODE_POSTAL_MEM, PAYS_MEM, TEL_MEM, FAX_MEM, LANGUE_CORRESPONDANCE_MEM,
   NOM_FICHIER_PHOTO_MEM, ADRESSE_WEB_MEM, INSTITUTION_MEM, COURRIEL_MEM, NO_MEMBRE_PATRON, EST_ADMINISTRATEUR_MEM, EST_SUPERVISEUR_MEM, EST_APPOUVEE_INSCRIPTION_MEM) 
-    values ( NO_MEMBRE_SEQ.nextval, 'eric.gagnon', FCT_GENERER_MOT_DE_PASSE(14), 'gagnon', 'eric', '2255 Rue des Pins Ouest', 'G1J 1T3', 'CANADA', '(418)646-2254','(418)646-2255','Français','/img/EGagnon.png','Egagnon.com','ETS','eric.gagnon@ets.com', 5 ,0,1,1);
+    values ( NO_MEMBRE_SEQ.nextval, 'eric.gagnon', FCT_GENERER_MOT_DE_PASSE(14), 'gagnon', 'eric', '2255 Rue des Pins Ouest', 'G1J 1T3', 'CANADA', '(418)646-2254','(418)646-2255','Français','/img/EGagnon.jpeg','Egagnon.com','ETS','eric.gagnon@ets.com', 5 ,0,1,1);
 
 
 /** un membre directeur **/
 insert into TP2_MEMBRE( NO_MEMBRE,  UTILISATEUR_MEM, MOT_DE_PASSE_MEM, NOM_MEM, PRENOM_MEM, ADRESSE_MEM, CODE_POSTAL_MEM, PAYS_MEM, TEL_MEM, FAX_MEM, LANGUE_CORRESPONDANCE_MEM,
   NOM_FICHIER_PHOTO_MEM, ADRESSE_WEB_MEM, INSTITUTION_MEM, COURRIEL_MEM, NO_MEMBRE_PATRON, EST_ADMINISTRATEUR_MEM, EST_SUPERVISEUR_MEM, EST_APPOUVEE_INSCRIPTION_MEM) 
-    values ( NO_MEMBRE_SEQ.nextval, 'julie.cagé', FCT_GENERER_MOT_DE_PASSE(14), 'cagé', 'julie', '1015 Avenue des Promenades', 'G1X 2P4', 'CANADA', '(418)353-1510','(418)353-1511','Français','/img/JCage.png','Jcage.com','PRISME','julie.cage@prisme.com', 15 ,0,0,1);
+    values ( NO_MEMBRE_SEQ.nextval, 'julie.cagé', FCT_GENERER_MOT_DE_PASSE(14), 'cagé', 'julie', '1015 Avenue des Promenades', 'G1X 2P4', 'CANADA', '(418)353-1510','(418)353-1511','Français','/img/JCage.jpeg','Jcage.com','PRISME','julie.cage@prisme.com', 15 ,0,0,1);
 
 
 /** membres **/
 insert into TP2_MEMBRE( NO_MEMBRE,  UTILISATEUR_MEM, MOT_DE_PASSE_MEM, NOM_MEM, PRENOM_MEM, ADRESSE_MEM, CODE_POSTAL_MEM, PAYS_MEM, TEL_MEM, FAX_MEM, LANGUE_CORRESPONDANCE_MEM,
   NOM_FICHIER_PHOTO_MEM, ADRESSE_WEB_MEM, INSTITUTION_MEM, COURRIEL_MEM, NO_MEMBRE_PATRON, EST_ADMINISTRATEUR_MEM, EST_SUPERVISEUR_MEM, EST_APPOUVEE_INSCRIPTION_MEM) 
-    values ( NO_MEMBRE_SEQ.nextval, 'louis.lambert', FCT_GENERER_MOT_DE_PASSE(14), 'lambert', 'louis', '3686 Avenue de la liberation', 'G1V 3P4', 'CANADA', '(418)263-4410','(418)263-4412','Français','/img/LLambert.png','Llambert.com','ICON','louis.lambert@icon.com', 20 ,0,0,1);
+    values ( NO_MEMBRE_SEQ.nextval, 'louis.lambert', FCT_GENERER_MOT_DE_PASSE(14), 'lambert', 'louis', '3686 Avenue de la liberation', 'G1V 3P4', 'CANADA', '(418)263-4410','(418)263-4412','Français','/img/LLambert.jpeg','Llambert.com','ICON','louis.lambert@icon.com', 20 ,0,0,1);
 
 insert into TP2_MEMBRE( NO_MEMBRE,  UTILISATEUR_MEM, MOT_DE_PASSE_MEM, NOM_MEM, PRENOM_MEM, ADRESSE_MEM, CODE_POSTAL_MEM, PAYS_MEM, TEL_MEM, FAX_MEM, LANGUE_CORRESPONDANCE_MEM,
   NOM_FICHIER_PHOTO_MEM, ADRESSE_WEB_MEM, INSTITUTION_MEM, COURRIEL_MEM, NO_MEMBRE_PATRON, EST_ADMINISTRATEUR_MEM, EST_SUPERVISEUR_MEM, EST_APPOUVEE_INSCRIPTION_MEM) 
-    values ( NO_MEMBRE_SEQ.nextval, 'frederic.larouche', FCT_GENERER_MOT_DE_PASSE(14), 'larouche', 'frederic', '1516 Avenue de Sherbrooke', 'G1J 6V4', 'CANADA', '(418)552-4540','(418)552-4541','Français','/img/Flarouche.png','Flarouche.com','ICON','frederic.larouche@icon.com', 20 ,0,0,1);
+    values ( NO_MEMBRE_SEQ.nextval, 'frederic.larouche', FCT_GENERER_MOT_DE_PASSE(14), 'larouche', 'frederic', '1516 Avenue de Sherbrooke', 'G1J 6V4', 'CANADA', '(418)552-4540','(418)552-4541','Français','/img/Flarouche.jpeg','Flarouche.com','ICON','frederic.larouche@icon.com', 20 ,0,0,1);
 
 insert into TP2_MEMBRE( NO_MEMBRE,  UTILISATEUR_MEM, MOT_DE_PASSE_MEM, NOM_MEM, PRENOM_MEM, ADRESSE_MEM, CODE_POSTAL_MEM, PAYS_MEM, TEL_MEM, FAX_MEM, LANGUE_CORRESPONDANCE_MEM,
   NOM_FICHIER_PHOTO_MEM, ADRESSE_WEB_MEM, INSTITUTION_MEM, COURRIEL_MEM, NO_MEMBRE_PATRON, EST_ADMINISTRATEUR_MEM, EST_SUPERVISEUR_MEM, EST_APPOUVEE_INSCRIPTION_MEM) 
-    values ( NO_MEMBRE_SEQ.nextval, 'Sebastien.Plante', FCT_GENERER_MOT_DE_PASSE(14), 'Plante', 'Sebastien', '1766 Avenue du chateau', 'G1V 4P5', 'CANADA', '(418)334-4220','(418)334-4221','Français','/img/SPlante.png','Splante.com','PIXEL','sebastien.plante@icon.com', 20 ,0,0,1);
+    values ( NO_MEMBRE_SEQ.nextval, 'Sebastien.Plante', FCT_GENERER_MOT_DE_PASSE(14), 'Plante', 'Sebastien', '1766 Avenue du chateau', 'G1V 4P5', 'CANADA', '(418)334-4220','(418)334-4221','Français','/img/SPlante.jpeg','Splante.com','PIXEL','sebastien.plante@icon.com', 20 ,0,0,1);
 
 
 /************* EQUIPES PROJET SYNAPS *******/
