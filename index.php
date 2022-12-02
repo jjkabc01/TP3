@@ -35,8 +35,8 @@ if (isset($_POST['connecter'])) {
                               from TP2_MEMBRE
                               where LOWER(UTILISATEUR_MEM) = '$UTILISATEUR_MEM' and MOT_DE_PASSE_MEM = '$MOT_DE_PASSE_MEM'");
     
-    oci_execute($stid);
-    
+    //oci_execute($stid);
+    execute_commande($stid);
     $MEMBRE = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS);
     
     // on sauvegarde les information dans la variable de session
@@ -72,6 +72,7 @@ if (isset($_POST['connecter'])) {
 //Si l'usager est deconnecté
 if (isset($_GET['action']) && $_GET['action'] === 'deconnecter' )  {
     session_destroy();
+    oci_close($conn);
     header('Location: index.php');
     echo '<div> Vous êtes bien deconnecté</div>';
 }
@@ -91,9 +92,9 @@ de chercheurs à travers le monde.
 
 <form action="index.php" method="post" >
     <div>
-    	<label for="fname">Nom d'utilisateur Membre :</label>
+    	<label for="UTILISATEUR_MEM">Nom d'utilisateur Membre :</label>
     	 <input type="text" name="UTILISATEUR_MEM"><br>
-    	 <label for="fpass">Mot de passe Membre :</label>
+    	 <label for="MOT_DE_PASSE_MEM">Mot de passe Membre :</label>
     	<input type="password" name="MOT_DE_PASSE_MEM"><br>
     </div>
 	<div >

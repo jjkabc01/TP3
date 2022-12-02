@@ -1,10 +1,15 @@
 
  
-header{
+header {
+    width: 100%;
+    text-align: center;
+}
 
-    max-width: 80px;
-    margin-right : auto;
-    margin-left: auto;
+#leaflogo {
+    height: 100px;
+    width: 100px;
+    position: absolute;
+    margin: -50px -20px 0;
 }
  
 nav{

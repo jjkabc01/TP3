@@ -86,13 +86,20 @@ if(isset($_GET['NO_PROJET'])){
       
 
     echo "<form action='un_projet.php' method='post' >\n";
-    echo "Numéro projet: <input name='NO_PROJET' value='$NO_PROJET' readonly><br> \n";
-    echo "Nom: <input type='text' name='NOM_PRO' value='$NOM_PRO'><br> \n";
-    echo "Montant alloué: <input type='text' name='MNT_ALLOUE_PRO' value='$MNT_ALLOUE_PRO'><br> \n";
-    echo "Début: <input type='datetime-local' name='DATE_DEBUT_PRO' value='$DATE_DEBUT_PRO'><br> \n";
-    echo "Fin: <input type='datetime-local' name='DATE_FIN_PRO' value='$DATE_FIN_PRO'><br> \n";
     
-    echo "Statut: <select name='STATUT_PRO' > \n";
+    echo "<label for='NO_PROJET'> Numéro projet :</label> \n";
+    echo "<input name='NO_PROJET' value='$NO_PROJET' readonly><br> \n";
+    echo "<label for='NOM_PRO'> Nom: </label> \n";
+    echo "<input type='text' name='NOM_PRO' value='$NOM_PRO'><br> \n";
+    echo "<label for='MNT_ALLOUE_PRO'> Montant alloué: </label> \n";
+    echo "<input type='text' name='MNT_ALLOUE_PRO' value='$MNT_ALLOUE_PRO'><br> \n";
+    echo "<label for='DATE_DEBUT_PRO'> Début: </label> \n";
+    echo "<input type='datetime-local' name='DATE_DEBUT_PRO' value='$DATE_DEBUT_PRO'><br> \n";
+    echo "<label for='DATE_FIN_PRO'> Fin :</label> \n";
+    echo "<input type='datetime-local' name='DATE_FIN_PRO' value='$DATE_FIN_PRO'><br> \n";
+    
+    echo "<label for='STATUT_PRO'> Statut :</label> \n";
+    echo "<select name='STATUT_PRO' > \n";
     echo "  <option selected value='$STATUT_PRO'>$STATUT_PRO</option>\n";
     echo "  <option value='Accepté'>Accepté</option>\n";
     echo "  <option value='Préliminaire'>Préliminaire</option>\n";
@@ -102,7 +109,8 @@ if(isset($_GET['NO_PROJET'])){
     echo "</select> \n";
     
     echo "</br> \n";
-    echo "Rapport: <select  size='5' name='STATUT_RAPPORT' > \n"; 
+    echo "<label for='STATUT_RAPPORT'> Rapport :</label> \n";
+    echo "<select  size='5' name='STATUT_RAPPORT' > \n"; 
     while (($row = oci_fetch_array($stid_rapport, OCI_ASSOC+OCI_RETURN_NULLS)) != false) {
              $NO_RAPPORT = $row['NO_RAPPORT'];
              $NOM_FICHIER_RAP = $row['NOM_FICHIER_RAP'];
@@ -114,7 +122,8 @@ if(isset($_GET['NO_PROJET'])){
     echo "</select> \n";
     
     echo "</br> \n";
-    echo "MEMBRE_EQUIPE: <select  size='10' name='MEMBRE_EQUIPE' > \n";
+    echo "<label for='MEMBRE_EQUIPE'>  Membre Équipe:</label> \n";
+    echo "<select  size='10' name='MEMBRE_EQUIPE' > \n";
     
     while (($row = oci_fetch_array($stid_equipe, OCI_ASSOC+OCI_RETURN_NULLS)) != false) {
         $NO_MEMBRE = $row['NO_MEMBRE'];
@@ -136,23 +145,29 @@ if(isset($_GET['NO_PROJET'])){
 }
 else
 {
-    echo '<div><h2> Creer un Projet </h2></div>';
+    echo '<div><h2> Créer un Projet </h2></div>';
     
     $_SESSION['update'] = false;
     
     echo "<form action='un_projet.php' method='post' >\n";
     
-    echo "Numéro projet: <input name='NO_PROJET'  readonly><br> \n";
-    echo "Nom: <input type='text' name='NOM_PRO' ><br> \n";
+    echo "<label for='NO_PROJET'> Numéro projet: </label> \n";
+    echo "<input name='NO_PROJET'  readonly><br> \n";
+    echo "<label for='NOM_PRO'> Nom: </label> \n";
+    echo "<input type='text' name='NOM_PRO' ><br> \n";
     
     if($_SESSION['TYPE_MEMBRE'] === 'administrateur' || $_SESSION['TYPE_MEMBRE'] === 'superviseur'){
-        echo "Montant alloué: <input type='text' name='MNT_ALLOUE_PRO' ><br> \n";
+        echo "<label for='MNT_ALLOUE_PRO'> Montant alloué:</label> \n";
+        echo "<input type='text' name='MNT_ALLOUE_PRO' ><br> \n";
     }
-         
-    echo "Début: <input type='datetime-local' placeholder='Format date AA-MM-JJ'name='DATE_DEBUT_PRO' ><br> \n";
-    echo "Fin: <input type='datetime-local' placeholder='Format date AA-MM-JJ' name='DATE_FIN_PRO' ><br> \n";
     
-    echo "Statut: <select name='STATUT_PRO' > \n";
+    echo "<label for='DATE_DEBUT_PRO'> Début:</label> \n";
+    echo "<input type='datetime-local' placeholder='Format date AA-MM-JJ'name='DATE_DEBUT_PRO' ><br> \n";
+    echo "<label for='DATE_FIN_PRO'> Fin:</label> \n";
+    echo "<input type='datetime-local' placeholder='Format date AA-MM-JJ' name='DATE_FIN_PRO' ><br> \n";
+    
+    echo "<label for='STATUT_PRO'> Statut:</label> \n";
+    echo "<select name='STATUT_PRO' > \n";
     echo "  <option value='Accepté'>Accepté</option>\n";
     echo "  <option value='Préliminaire'>Préliminaire</option>\n";
     echo "  <option value='Intermédiaire'>Intermédiaire</option>\n";

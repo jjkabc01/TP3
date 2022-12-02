@@ -71,11 +71,11 @@ echo '<div><h2> Rechercher Projet</h2></div>';
 
 
 echo "<form action='projet_rechercher.php' method='post' > \n";
-echo "<label for='fprojectname'>Nom du projet : </label> \n";
+echo "<label for='NOM_PRO'>Nom du projet : </label> \n";
 echo "<input type='text' name='NOM_PRO'><br> \n";
-echo "<label for='fmontantalloue'>Montant alloué : </label> \n";
+echo "<label for='MNT_ALLOUE_PRO'>Montant alloué : </label> \n";
 echo "<input type='text' name='MNT_ALLOUE_PRO'><br> \n";
-echo "<label for='fdateprojet'>Date du projet: </label> \n";
+echo "<label for='DATE'>Date du projet: </label> \n";
 echo "<input type='text' placeholder='Format date AA-MM-JJ' name='DATE'> <br> \n";
 echo "<input class='boutton' type='submit' name='ok' value=' OK '> \n";
 echo "<input class='boutton' type = 'submit' name='annuler' value='Annuler'> \n";

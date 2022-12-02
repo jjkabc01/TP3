@@ -179,6 +179,7 @@ elseif($_SESSION['TYPE_MEMBRE'] === 'administrateur' || $_SESSION['TYPE_MEMBRE']
     //Si l'usager connecté est un administrateur on affiche le boutton archiver
     if($_SESSION['TYPE_MEMBRE'] === 'administrateur' )
     {
+        echo "<label for='date_archive'> Date d'archivage :</label> \n";
         echo "<input type='date' name='date_archive' placeholder='Format date AA-MM-JJ' >";
         echo "<input class='boutton' type='submit' name='archiver' value='Archiver'><br> \n";
     }

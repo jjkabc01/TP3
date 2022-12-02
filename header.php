@@ -1,3 +1,25 @@
+<!doctype html>
+
+<html>
+<head>
+<title>Aplication web de CIPRE</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+<header>
+<nav>
+<a href="index.php" id="logo"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrDKX0-LFLEI5iGqLqqVOlWWzOYdblsDW-VA&usqp=CAU" alt="" id="leaflogo"></a>
+</nav>
+</header>
+    
+
+</body>
+             
+</html>
+
+
 <?php
 //on demarre la session
 session_start();
@@ -12,23 +34,3 @@ include('etat_connexion.php');
 
 ?>
 
-<!doctype html>
-
-<html>
-<head>
-<title>Aplication web de CIPRE</title>
-<meta charset="UTF-8">
-<link rel="stylesheet" type="text/css" href="style.css">
-</head>
-
-<body>
-<header>
-<nav>
-<a href="#><img src="#" alt="" class="logo"></a>
-</nav>
-</header>
-    
-
-</body>
-             
-</html>
