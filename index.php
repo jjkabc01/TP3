@@ -35,8 +35,8 @@ if (isset($_POST['connecter'])) {
                               from TP2_MEMBRE
                               where LOWER(UTILISATEUR_MEM) = '$UTILISATEUR_MEM' and MOT_DE_PASSE_MEM = '$MOT_DE_PASSE_MEM'");
     
-    oci_execute($stid);
-    
+    //oci_execute($stid);
+    execute_commande($stid);
     $MEMBRE = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS);
     
     // on sauvegarde les information dans la variable de session
@@ -72,6 +72,7 @@ if (isset($_POST['connecter'])) {
 //Si l'usager est deconnecté
 if (isset($_GET['action']) && $_GET['action'] === 'deconnecter' )  {
     session_destroy();
+    oci_close($conn);
     header('Location: index.php');
     echo '<div> Vous êtes bien deconnecté</div>';
 }
@@ -81,19 +82,19 @@ if (isset($_GET['action']) && $_GET['action'] === 'deconnecter' )  {
 
 <section class="presentation">
 <h1>Bienvenue sur le portail de CIPRE</h1>
-<p>CPRE est un centre de recherche internationnal qui compe de milliers<br>
-de milliers de chercheurs a travers le monde.l'objectif de tous ses chercheurs est<br>
-      centré sur des recherche pour repondre aux bésoin du monde.
+<p>CIPRE est un centre de recherche international qui compte des milliers
+de chercheurs à travers le monde.
+<br>L'objectif de tous ces chercheurs est centré sur des recherches pour repondre aux bésoins du monde.
 </p>
 </section>
 
-<p>Merci de entrer votre nom d'utilisateur et votre mot de passe et cliquez sur le boutton Se connecter.</p>
+<p>Merci d'entrer votre nom d'utilisateur et votre mot de passe et cliquez sur le bouton Se connecter.</p>
 
 <form action="index.php" method="post" >
     <div>
-    	<label for="fname">Nom d'utilisateur Membre :</label>
+    	<label for="UTILISATEUR_MEM">Nom d'utilisateur Membre :</label>
     	 <input type="text" name="UTILISATEUR_MEM"><br>
-    	 <label for="fpass">Mot de passe Membre :</label>
+    	 <label for="MOT_DE_PASSE_MEM">Mot de passe Membre :</label>
     	<input type="password" name="MOT_DE_PASSE_MEM"><br>
     </div>
 	<div >
