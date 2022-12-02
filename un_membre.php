@@ -23,7 +23,6 @@ if (isset($_GET['NO_MEMBRE']))  {
     $Adresse = $MEMBRE['ADRESSE_MEM'].", ". $MEMBRE['CODE_POSTAL_MEM'] .", Tél: ". $MEMBRE['TEL_MEM'];
     $Langue = $MEMBRE['LANGUE_CORRESPONDANCE_MEM'];
     $Photo = $MEMBRE['NOM_FICHIER_PHOTO_MEM'];
-    $ExemplePhoto = "https://i.ibb.co/wBMCG13/download.png";
     
     
     //on affiche le début d'un tableau html
@@ -88,15 +87,7 @@ if (isset($_GET['NO_MEMBRE']))  {
     //On affiche le heading
     echo "<th>Photo</th>\n";
     //On affiche la valeur correspondant au heading
-    echo "<td><img src='".$Photo."' /></td> \n";
-    //on affiche la fin de la ligne d'un tableau html
-    echo "</tr>\n";
-    
-    echo "<tr>\n";
-    //On affiche le heading
-    echo "<th>Exemple Photo</th>\n";
-    //On affiche la valeur correspondant au heading
-    echo "<td><img src='".$ExemplePhoto."' /></td> \n";
+    echo "<td class='imagemembre'><img src='.".$Photo."' /></td> \n";
     //on affiche la fin de la ligne d'un tableau html
     echo "</tr>\n";
     
