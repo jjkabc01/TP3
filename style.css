@@ -1,47 +1,17 @@
 
- 
-header {
-    width: 100%;
-    text-align: center;
-}
 
-#leaflogo {
+#logo {
     height: 100px;
     width: 100px;
-    position: absolute;
-    margin: -50px -20px 0;
+    
+    margin: -13px -5px 0;
 }
  
-nav{
-    dispaly: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    width: 100px;
-    padding: 30px 0 10px;
 
-}
- 
-nav .logo{
-
-    width: 170PX;
-}
- 
-nav ul{
-    flex:1;
-    display: flex;
-    justify-content: flex end;
-    padding-right: 40px;
-
-}
-nav ul li{
-
-    list-style: none;
-    margin-left:600px;
-}
- 
-.connexion{
-
-    margin-left:1400px;
+#etat_connexion{
+  position: absolute;
+  top: 8px;
+  right: 16px;
 }
  
 .erreur 
@@ -50,7 +20,6 @@ nav ul li{
     color : red;
  }
 
- 
 .copy{
 
     dispaly:flex;
@@ -59,3 +28,4 @@ nav ul li{
     flex-direction: column;
     text-align: center;
 }
+ 

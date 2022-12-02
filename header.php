@@ -10,7 +10,7 @@
 <body>
 <header>
 <nav>
-<a href="index.php" id="logo"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrDKX0-LFLEI5iGqLqqVOlWWzOYdblsDW-VA&usqp=CAU" alt="" id="leaflogo"></a>
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrDKX0-LFLEI5iGqLqqVOlWWzOYdblsDW-VA&usqp=CAU" alt="" id="logo">
 </nav>
 </header>
     
