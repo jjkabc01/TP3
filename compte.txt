@@ -1,0 +1,23 @@
+#### Compte administrateur ###
+Nom utilisateur: jean.tremblay
+Mot de passe : whJkVGlwPM/Mf1
+
+### Compte superviseur ###
+Nom utilisateur: eric.gagnon
+Mot de passe : XqzmhpHrxY/Ho6
+
+### Compte mmembre (normale) ###
+Nom utilisateur: julie.cagé
+Mot de passe : RjMfiNPmFj/Nq1
+
+### Compte mmembre (normale) ###
+Nom utilisateur: louis.lambert
+Mot de passe : dkJrPMzdzJ?Hj4
+
+### Compte mmembre (normale) ###
+Nom utilisateur: frederic.larouche
+Mot de passe : GlQmqxcxat$Br1
+
+### Compte mmembre (normale) ###
+Nom utilisateur: Sebastien.Plante
+Mot de passe : XhpKaRiMkc!Ju4
